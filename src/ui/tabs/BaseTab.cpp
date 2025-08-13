@@ -4,6 +4,12 @@
 #include <QVariant>
 #include "ui/components/SearchBarWidget.h"
 
+#include "BaseTab.h"
+#include <QListWidget>
+#include <QVBoxLayout>
+#include <QVariant>
+#include "ui/components/SearchBarWidget.h"
+
 BaseTab::BaseTab(QWidget *parent) : QWidget(parent) {
     auto* layout = new QVBoxLayout(this);
     m_searchBar = new SearchBarWidget(this);
@@ -12,6 +18,7 @@ BaseTab::BaseTab(QWidget *parent) : QWidget(parent) {
     layout->addWidget(m_searchBar);
     layout->addWidget(m_listWidget);
 
+    // CORREÇÃO: Conecta ao sinal correto que acabamos de adicionar
     connect(m_searchBar, &SearchBarWidget::searchQueryChanged, this, &BaseTab::onSearchQueryChanged);
     connect(m_listWidget, &QListWidget::itemDoubleClicked, this, &BaseTab::onItemDoubleClicked);
 }

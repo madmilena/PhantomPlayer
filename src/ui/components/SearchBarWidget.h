@@ -2,19 +2,20 @@
 #define PHANTOMPLAYER_SEARCHBARWIDGET_H
 
 #include <QWidget>
-#include <QLineEdit>
+
+class QLineEdit;
 
 class SearchBarWidget : public QWidget {
     Q_OBJECT
+
 public:
     explicit SearchBarWidget(QWidget* parent = nullptr);
-    QString text() const;
 
 signals:
-    void textChanged(const QString&);
+    void searchQueryChanged(const QString& text); // <-- SINAL ADICIONADO
 
 private:
-    QLineEdit* m_lineEdit;
+    QLineEdit* m_searchBar;
 };
 
-#endif // PHANTOMPLAYER_SEARCHBARWIDGET_H
+#endif //PHANTOMPLAYER_SEARCHBARWIDGET_H
