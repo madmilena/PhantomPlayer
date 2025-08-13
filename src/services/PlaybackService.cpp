@@ -6,7 +6,7 @@
 #include <iostream>
 
 PlaybackService::PlaybackService(QObject *parent) : QObject(parent) {
-    m_mediaLibrary.scanDirectory("/Users/milenamadsen/Music"); // Ajuste este caminho se necessário
+    m_mediaLibrary.scanDirectory("/Users/milenamadsen/Music");
     generateShuffleList();
 
     m_progressTimer = new QTimer(this);
@@ -22,10 +22,15 @@ float PlaybackService::getInitialVolume() const {
     return m_audioEngine.getVolume();
 }
 
-// Esta é a única versão da função que deve existir no arquivo
 MediaLibrary* PlaybackService::getMediaLibrary() {
     return &m_mediaLibrary;
 }
+
+// --- IMPLEMENTAÇÃO DA FUNÇÃO QUE FALTAVA ---
+RepeatMode PlaybackService::getRepeatMode() const {
+    return m_repeatMode;
+}
+// ------------------------------------------
 
 void PlaybackService::generateShuffleList() {
     const auto& tracks = m_mediaLibrary.getTracks();
