@@ -31,7 +31,7 @@ QString formatDuration(int totalSeconds) {
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
     : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager) {
     
-    setWindowTitle("Nosso Spotify Clone");
+    setWindowTitle("Phantom Player");
     resize(1000, 600);
 
     setupUI();
