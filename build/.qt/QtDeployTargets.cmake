@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_phantom_player_FILE /Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player)
-set(__QT_DEPLOY_TARGET_phantom_player_TYPE EXECUTABLE)
