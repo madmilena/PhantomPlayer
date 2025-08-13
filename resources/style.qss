@@ -1,0 +1,78 @@
+/* Estilo geral da aplicação */
+QWidget {
+    background-color: #121212;
+    color: #FFFFFF;
+    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+/* Estilo da Janela Principal */
+QMainWindow {
+    background-color: #121212;
+}
+
+/* ---- NOVO: Estilo para a Barra de Busca ---- */
+QLineEdit {
+    background-color: #282828;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 14px;
+}
+/* ------------------------------------------- */
+
+/* Estilo da Lista de Músicas */
+QListWidget {
+    background-color: #181818;
+    border: 1px solid #282828;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Estilo de cada item na lista */
+QListWidget::item {
+    padding: 8px;
+}
+
+/* Estilo do item quando selecionado */
+QListWidget::item:selected {
+    background-color: #282828;
+    color: #1DB954; /* Verde Spotify */
+}
+
+/* Estilo dos Botões */
+QPushButton {
+    background-color: #1DB954;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 15px; /* Deixa os botões redondos */
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Efeito ao passar o mouse por cima do botão */
+QPushButton:hover {
+    background-color: #1ED760;
+}
+
+/* Estilo da Barra de Progresso (Slider) */
+QSlider::groove:horizontal {
+    border: 1px solid #444444;
+    height: 4px;
+    background: #444444;
+    margin: 2px 0;
+    border-radius: 2px;
+}
+
+QPushButton:checkable:checked {
+    background-color: #1ED760;
+    border: 1px solid #FFFFFF;
+}
+
+QSlider::handle:horizontal {
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    width: 12px;
+    margin: -4px 0; /* Centraliza o handle na barra */
+    border-radius: 6px;
+}
