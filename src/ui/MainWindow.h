@@ -5,6 +5,7 @@
 #include "../services/PlaybackService.h"
 #include "../services/PlaylistManager.h"
 
+// Forward declarations para evitar inclusões circulares e acelerar a compilação
 class PlayerControlsWidget;
 class TrackDetailsComponent;
 class LibraryTabWidget;
@@ -21,13 +22,15 @@ public:
 private slots:
     void onTrackChanged(const Track& track) const;
     void createNewPlaylist();
-    void addTrackToPlaylist(int trackIndex) const;
     void onPlaylistsChanged() const;
     void deletePlaylist(int index) const;
-    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- NOVO SLOT
     void onSavePlaylists();
     void onLoadPlaylists();
     void onTabChanged(int index);
+
+    // **** CORREÇÃO PRINCIPAL AQUI ****
+    // A assinatura agora corresponde exatamente à implementação no .cpp
+    void addTrackToPlaylist(int trackIndex) const;
 
 private:
     void setupUI();

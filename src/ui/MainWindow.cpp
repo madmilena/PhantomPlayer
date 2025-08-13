@@ -148,3 +148,18 @@ void MainWindow::onTabChanged(const int index) {
         m_libraryTab->clearSearch();
     }
 }
+
+// ****** FUNÇÃO QUE FALTAVA FOI ADICIONADA AQUI ******
+void MainWindow::removeTrackFromPlaylist(int playlistId, int trackIndex) {
+    // TODO: Adicionar a lógica para remover a faixa da playlist aqui.
+    // Por exemplo:
+    // PlaybackService::getInstance().removeTrackFromPlaylist(playlistId, trackIndex);
+    qDebug() << "Removendo faixa" << trackIndex << "da playlist" << playlistId;
+}
+
+// Slot ajustado para receber o tipo correto do sinal
+void MainWindow::playTrackFromPlaylist(QListWidgetItem *item) {
+    // TODO: Adicionar a lógica para tocar a faixa aqui.
+    // Você precisará extrair as informações da faixa do QListWidgetItem.
+    qDebug() << "Tocando a faixa:" << item->text();
+}
