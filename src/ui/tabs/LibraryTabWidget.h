@@ -1,35 +1,28 @@
 #ifndef PHANTOMPLAYER_LIBRARYTABWIDGET_H
 #define PHANTOMPLAYER_LIBRARYTABWIDGET_H
 
-#include <QWidget>
+#include "BaseTab.h"
 #include <vector>
-#include "core/Track.h" // <-- ADICIONADO
+#include "core/Track.h" // Incluído
 
-class QListWidget;
 class QListWidgetItem;
-class QLineEdit;
 class QMenu;
 
-class LibraryTabWidget : public QWidget {
+class LibraryTabWidget : public BaseTab {
     Q_OBJECT
+
 public:
     explicit LibraryTabWidget(QWidget* parent = nullptr);
     void updateTrackList(const std::vector<Track>& tracks);
 
 signals:
-    void trackDoubleClicked(int trackIndex);
     void addToPlaylistRequested(int trackIndex);
-    void searchQueryChanged(const QString& text);
 
 private slots:
-    void onItemDoubleClicked(QListWidgetItem* item);
     void showContextMenu(const QPoint& pos);
+    void onAddToPlaylist();
 
 private:
-    QString formatDuration(int totalSeconds);
-
-    QListWidget* m_listWidget;
-    QLineEdit* m_searchBar;
     QMenu* m_contextMenu;
 };
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(PhantomPlayer) # Nome do projeto padronizado
+project(PhantomPlayer)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,25 +25,19 @@ add_executable(phantom_player
     src/core/MediaLibrary.cpp
     src/services/PlaybackService.cpp
     src/services/PlaylistManager.cpp
-    
-    # --- UI ---
     src/ui/MainWindow.cpp
-    
-    # --- Componentes da UI ---
+    src/ui/components/PlayerControlsWidget.cpp
     src/ui/components/SearchBarWidget.cpp
     src/ui/components/TrackDetailsComponent.cpp
-    src/ui/components/PlayerControlsWidget.cpp
-    
-    # --- Abas da UI ---
     src/ui/tabs/LibraryTabWidget.cpp
     src/ui/tabs/PlaylistTabWidget.cpp
-    
+    # Nota: BaseTab.cpp não é necessário pois é uma classe abstrata
     ${RESOURCES}
 )
 
 target_include_directories(phantom_player PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/third_party # <-- ESTA LINHA É IMPORTANTE
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party
     ${TAGLIB_INCLUDE_DIRS}
 )
 
