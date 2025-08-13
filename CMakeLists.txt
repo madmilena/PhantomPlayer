@@ -36,7 +36,7 @@ add_executable(phantom_player
     src/ui/components/PlayerControlsWidget.cpp
     
     # --- Abas da UI ---
-    src/ui/tabs/BaseTab.cpp
+
     src/ui/tabs/LibraryTabWidget.cpp
     src/ui/tabs/PlaylistTabWidget.cpp
     
