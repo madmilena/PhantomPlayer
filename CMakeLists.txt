@@ -2,23 +2,24 @@ cmake_minimum_required(VERSION 3.16)
 project(PhantomPlayer)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "/usr/local/opt/qt")
-find_package(Qt6 COMPONENTS Widgets Gui REQUIRED)
+# Configuração do Qt
+find_package(Qt6 REQUIRED COMPONENTS Widgets Network)
 
+# --- CORREÇÃO AQUI ---
+# Ajustamos o caminho para apontar para a pasta específica onde
+# o arquivo SFMLConfig.cmake está localizado.
 set(CMAKE_PREFIX_PATH "/Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit")
 find_package(SFML 3.0 REQUIRED COMPONENTS Audio)
 
+# Configuração do TagLib
 find_package(TagLib REQUIRED)
-find_library(TAGLIB_LIBRARY_FILE NAMES tag)
 
-qt_add_resources(RESOURCES resources/resources.qrc)
-
+# Lista de todos os seus arquivos-fonte
+set(EXECUTABLE_NAME phantom_player)
 add_executable(phantom_player
         src/main.cpp
         src/core/AudioEngine.cpp
@@ -42,15 +43,20 @@ add_executable(phantom_player
         src/services/SearchService.cpp
 )
 
+# Diretórios de inclusão
 target_include_directories(phantom_player PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/third_party
         ${TAGLIB_INCLUDE_DIRS}
 )
 
-target_link_libraries(phantom_player PRIVATE
+# Bibliotecas para linkar
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE
         Qt6::Widgets
-        Qt6::Gui
+        Qt6::Network
         SFML::Audio
         ${TAGLIB_LIBRARY_FILE}
+        sfml-audio
+        sfml-system
+        TagLib::tag
 )

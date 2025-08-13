@@ -3,35 +3,34 @@
 
 #include <QWidget>
 #include <vector>
-#include <filesystem>
 #include "core/Track.h"
 
 class QListWidget;
 class QListWidgetItem;
 class SearchBarWidget;
 
-namespace fs = std::filesystem;
-
 class BaseTab : public QWidget {
     Q_OBJECT
 
 public:
     explicit BaseTab(QWidget* parent = nullptr);
-    // Este método é ótimo para mostrar as faixas locais
-    void updateTrackList(const std::vector<Track>& allTracks);
+    // Assinatura correta para receber a lista de faixas locais
+    void updateTrackList(const std::vector<Track>& tracks);
+    // Método para a MainWindow poder limpar a busca ao trocar de aba
+    void clearSearch();
 
 protected slots:
-    // Permite que classes filhas reimplementem a lógica de busca
+    // Tornamos virtual para que a LibraryTabWidget possa sobrescrevê-lo
     virtual void onSearchQueryChanged(const QString& text);
+    // Garante que o duplo clique emita o ID correto da faixa
     void onItemDoubleClicked(const QListWidgetItem* item);
 
     signals:
-        // O sinal deve emitir o ID da faixa, não o índice da lista
+        // O sinal emite o ID da faixa, que é mais robusto que o índice da linha
         void trackDoubleClicked(int trackId);
 
 protected:
     static QString formatDuration(int totalSeconds);
-
     QListWidget* m_listWidget;
     SearchBarWidget* m_searchBar;
 };

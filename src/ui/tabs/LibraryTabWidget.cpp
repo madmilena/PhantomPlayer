@@ -6,63 +6,58 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QMenu>
 #include <QDebug>
 
 LibraryTabWidget::LibraryTabWidget(QWidget* parent)
-    : BaseTab(parent) // Chama o construtor da classe pai, que monta a UI básica
+    : BaseTab(parent)
 {
-    // 1. Inicializa os componentes específicos da busca online
     m_searchService = new SearchService(this);
     m_searchTimer = new QTimer(this);
 
-    // 2. Configura o timer para a busca "inteligente" (debouncing)
     m_searchTimer->setSingleShot(true);
-    m_searchTimer->setInterval(400); // 400ms de espera após o usuário parar de digitar
+    m_searchTimer->setInterval(400);
 
-    // 3. Conecta os sinais e slots
+    // Habilita a política de menu de contexto para a lista
+    m_listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+
     setupConnections();
 }
 
-LibraryTabWidget::~LibraryTabWidget() {
-    // O Qt cuida de deletar m_searchService e m_searchTimer porque demos 'this' no construtor
-}
+LibraryTabWidget::~LibraryTabWidget() {}
 
 void LibraryTabWidget::setupConnections() {
-    // A conexão da barra de busca agora aponta para o nosso método sobrescrito
-    // (A conexão original da BaseTab já faz isso automaticamente por causa do 'virtual')
+    // A conexão da busca já é feita na BaseTab. Como onSearchQueryChanged é virtual,
+    // a versão desta classe será chamada automaticamente.
 
-    // Conecta o fim do timer ao método que efetivamente dispara a busca
     connect(m_searchTimer, &QTimer::timeout, this, &LibraryTabWidget::triggerSearch);
-
-    // Conecta os sinais do nosso serviço aos métodos que tratarão os resultados
     connect(m_searchService, &SearchService::searchResultsReady, this, &LibraryTabWidget::onSearchResultsReceived);
     connect(m_searchService, &SearchService::searchFailed, this, &LibraryTabWidget::onSearchFailed);
+
+    // Conexão para o menu de clique-direito
+    connect(m_listWidget, &QListWidget::customContextMenuRequested, this, &LibraryTabWidget::showContextMenu);
 }
 
-// Este método SOBRESCRVE o da BaseTab. Em vez de filtrar, ele aciona o timer.
 void LibraryTabWidget::onSearchQueryChanged(const QString& text) {
     if (text.trimmed().length() < 3) {
-        // Se a busca for curta, não faz nada ou volta para a lista local
         m_searchTimer->stop();
-        // updateTrackList(m_localTracks); // Opcional: recarregar a lista local
+        // Aqui você poderia recarregar a lista local de musicas, se quisesse
+        // updateTrackList(m_localTracks);
         return;
     }
-    // A cada letra digitada, o timer é reiniciado
     m_searchTimer->start();
 }
 
-// Quando o timer finalmente dispara, este método é chamado
 void LibraryTabWidget::triggerSearch() {
     QString query = m_searchBar->text().trimmed();
     qDebug() << "Disparando busca online por:" << query;
-    m_listWidget->clear(); // Limpa a lista para mostrar que algo está acontecendo
-    m_listWidget->addItem("Buscando..."); // Feedback para o usuário
+    m_listWidget->clear();
+    m_listWidget->addItem("Buscando...");
     m_searchService->search(query);
 }
 
-// Quando os resultados da API chegam, este slot é ativado
 void LibraryTabWidget::onSearchResultsReceived(const std::vector<SearchResult>& results) {
-    m_listWidget->clear(); // Limpa a mensagem "Buscando..."
+    m_listWidget->clear();
 
     if (results.empty()) {
         m_listWidget->addItem("Nenhum resultado encontrado.");
@@ -73,8 +68,8 @@ void LibraryTabWidget::onSearchResultsReceived(const std::vector<SearchResult>& 
 
     for (const auto& result : results) {
         auto* item = new QListWidgetItem(result.artistName + " - " + result.trackTitle, m_listWidget);
-        // Você pode guardar mais dados aqui se precisar, por exemplo, o ID da música
-        // item->setData(Qt::UserRole, result.trackIdFromApi);
+        // O ideal seria que a API retornasse um ID para a faixa, que guardaríamos aqui:
+        // item->setData(Qt::UserRole, result.trackApiId);
 
         if (!result.thumbnailUrl.isEmpty()) {
             QNetworkRequest request(result.thumbnailUrl);
@@ -97,4 +92,30 @@ void LibraryTabWidget::onSearchResultsReceived(const std::vector<SearchResult>& 
 void LibraryTabWidget::onSearchFailed(const QString& errorString) {
     m_listWidget->clear();
     m_listWidget->addItem("Erro na busca: " + errorString);
+}
+
+// Implementação do menu de contexto que a MainWindow precisa
+void LibraryTabWidget::showContextMenu(const QPoint& pos) {
+    QListWidgetItem* item = m_listWidget->itemAt(pos);
+    if (!item) {
+        return;
+    }
+
+    // Não mostra o menu para itens de status como "Buscando..."
+    if (item->data(Qt::UserRole).isNull()) {
+        return;
+    }
+
+    QMenu contextMenu(this);
+    QAction* addAction = contextMenu.addAction("Adicionar à Playlist");
+
+    connect(addAction, &QAction::triggered, this, [this, item]() {
+        bool ok;
+        int trackId = item->data(Qt::UserRole).toInt(&ok);
+        if (ok) {
+            emit addToPlaylistRequested(trackId);
+        }
+    });
+
+    contextMenu.exec(m_listWidget->mapToGlobal(pos));
 }
