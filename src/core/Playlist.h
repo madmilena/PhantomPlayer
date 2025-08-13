@@ -1,12 +1,23 @@
-#ifndef SPOTIFYCLONE_PLAYLIST_H
-#define SPOTIFYCLONE_PLAYLIST_H
+#ifndef PHANTOMPLAYER_PLAYLIST_H
+#define PHANTOMPLAYER_PLAYLIST_H
 
-#include <QString>
+#include <string>
 #include <vector>
 
-struct Playlist {
-    QString name;
-    std::vector<int> trackIndices;
+class Playlist {
+public:
+    explicit Playlist(std::string  name);
+
+    void addTrack(int trackId);
+    void removeTrack(int trackIndex);
+
+    // --- CORREÇÃO AQUI: ADICIONANDO MÉTODOS GETTER ---
+    [[nodiscard]] const std::string& getName() const { return m_name; }
+    [[nodiscard]] const std::vector<int>& getTrackIds() const { return m_trackIds; }
+
+private:
+    std::string m_name;
+    std::vector<int> m_trackIds;
 };
 
-#endif //SPOTIFYCLONE_PLAYLIST_H
+#endif //PHANTOMPLAYER_PLAYLIST_H
