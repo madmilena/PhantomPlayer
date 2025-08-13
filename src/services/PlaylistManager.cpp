@@ -1,14 +1,23 @@
 #include "PlaylistManager.h"
 #include <fstream>
 #include <iostream>
+#include <QStandardPaths>
+#include <QDir>
 #include "nlohmann/json.hpp" // Inclui a biblioteca de JSON
 
-// Conveniência para usar a biblioteca json
 using json = nlohmann::json;
 
 PlaylistManager::PlaylistManager(MediaLibrary* mediaLibrary, QObject* parent)
     : QObject(parent), m_mediaLibrary(mediaLibrary) {
-    // O construtor está limpo, o carregamento/salvamento será manual via menu
+    
+    // Opcional: Se quiser que as playlists carreguem automaticamente ao iniciar
+    // QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    // if (!dataPath.isEmpty()) {
+    //     QDir dir(dataPath);
+    //     if (!dir.exists()) dir.mkpath(".");
+    //     QString filePath = dataPath + "/playlists.json";
+    //     loadPlaylistsFromFile(filePath);
+    // }
 }
 
 void PlaylistManager::createNewPlaylist(const QString& name) {
@@ -21,7 +30,7 @@ void PlaylistManager::createNewPlaylist(const QString& name) {
 void PlaylistManager::addTrackToPlaylist(int playlistIndex, int trackIndex) {
     if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
         m_playlists[playlistIndex].trackIndices.push_back(trackIndex);
-        emit playlistsChanged();
+        emit playlistsChanged(); // Avisa a UI para redesenhar a aba da playlist
     }
 }
 
@@ -32,22 +41,18 @@ void PlaylistManager::deletePlaylist(int playlistIndex) {
     }
 }
 
-
 const std::vector<Playlist>& PlaylistManager::getPlaylists() const {
     return m_playlists;
 }
 
-// --- IMPLEMENTAÇÃO COMPLETA DO SALVAMENTO ---
 bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
-    json j = json::array(); // O arquivo JSON será um array de playlists
-
+    json j = json::array();
     const auto& allTracks = m_mediaLibrary->getTracks();
 
     for (const auto& playlist : m_playlists) {
         json playlistObject;
         playlistObject["name"] = playlist.name.toStdString();
         
-        // Cria um array apenas com os caminhos dos arquivos de música
         json trackPaths = json::array();
         for (int trackIndex : playlist.trackIndices) {
             if (trackIndex >= 0 && trackIndex < allTracks.size()) {
@@ -58,10 +63,9 @@ bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
         j.push_back(playlistObject);
     }
 
-    // Abre o arquivo e escreve o JSON formatado
     std::ofstream file(filePath.toStdString());
     if (file.is_open()) {
-        file << j.dump(4); // .dump(4) formata o JSON com 4 espaços de indentação
+        file << j.dump(4);
         return true;
     }
     
@@ -69,7 +73,6 @@ bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
     return false;
 }
 
-// --- IMPLEMENTAÇÃO COMPLETA DO CARREGAMENTO ---
 bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
     std::ifstream file(filePath.toStdString());
     if (!file.is_open()) {
@@ -80,10 +83,8 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
     try {
         json j = json::parse(file);
 
-        m_playlists.clear(); // Limpa as playlists atuais antes de carregar
+        m_playlists.clear();
         const auto& allTracks = m_mediaLibrary->getTracks();
-
-        // Para eficiência, criamos um mapa para encontrar rapidamente o índice de uma música pelo seu caminho
         std::map<std::string, int> trackPathToIndex;
         for (int i = 0; i < allTracks.size(); ++i) {
             trackPathToIndex[allTracks[i].filePath] = i;
@@ -96,11 +97,20 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
             if (playlistObject.contains("tracks") && playlistObject["tracks"].is_array()) {
                 for (const auto& trackPath : playlistObject["tracks"]) {
                     std::string pathStr = trackPath.get<std::string>();
-                    // Se o caminho da música do arquivo JSON existir na nossa biblioteca atual...
                     if (trackPathToIndex.count(pathStr)) {
-                        // ...adicionamos seu índice à nova playlist.
                         newPlaylist.trackIndices.push_back(trackPathToIndex[pathStr]);
                     }
                 }
             }
-            m_playlists.push
+            // A CORREÇÃO ESTÁ AQUI:
+            m_playlists.push_back(newPlaylist);
+        }
+
+        emit playlistsChanged();
+        return true;
+
+    } catch (const json::parse_error& e) {
+        std::cerr << "Erro ao decodificar o arquivo de playlists JSON: " << e.what() << std::endl;
+        return false;
+    }
+}
