@@ -76,6 +76,7 @@ void MainWindow::setupLayouts() {
     connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
+    
 }
 
 void MainWindow::setupConnections() {
@@ -93,7 +94,7 @@ void MainWindow::setupConnections() {
         m_playbackService->setRepeatMode(nextMode);
         m_playerControls->setRepeatButtonMode(nextMode);
     });
-
+    
 
     connect(m_playbackService, &PlaybackService::trackChanged, this, &MainWindow::onTrackChanged);
     connect(m_playbackService, &PlaybackService::playbackStateChanged, m_playerControls, &PlayerControlsWidget::onPlaybackStateChanged);
@@ -106,6 +107,7 @@ void MainWindow::setupConnections() {
     connect(m_playlistTabs, &PlaylistTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_libraryTab, &LibraryTabWidget::addToPlaylistRequested, this, &MainWindow::addTrackToPlaylist);
     connect(m_playlistTabs, &PlaylistTabWidget::playlistClosed, this, &MainWindow::deletePlaylist);
+    connect(m_playlistTabs, &PlaylistTabWidget::removeTrackFromPlaylist, this, &MainWindow::removeTrackFromPlaylist);
 }
 
 void MainWindow::onTrackChanged(const Track& track) {
@@ -149,4 +151,8 @@ void MainWindow::onLoadPlaylists() {
     if (!filePath.isEmpty()) {
         m_playlistManager->loadPlaylistsFromFile(filePath);
     }
+}
+// --- NOVA IMPLEMENTAÇÃO ---
+void MainWindow::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
+    m_playlistManager->removeTrackFromPlaylist(playlistIndex, trackIndex);
 }

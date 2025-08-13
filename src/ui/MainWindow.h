@@ -24,6 +24,7 @@ private slots:
     void addTrackToPlaylist(int trackIndex);
     void onPlaylistsChanged();
     void deletePlaylist(int index);
+    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- NOVO SLOT
     void onSavePlaylists();
     void onLoadPlaylists();
 
