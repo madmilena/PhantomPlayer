@@ -15,16 +15,16 @@ public:
     void addTrackToPlaylist(int playlistIndex, int trackIndex);
     const std::vector<Playlist>& getPlaylists() const;
 
+    // Métodos públicos para serem chamados pela UI
+    bool savePlaylistsToFile(const QString& filePath);
+    bool loadPlaylistsFromFile(const QString& filePath);
+
 signals:
     void playlistsChanged();
 
 private:
-    void savePlaylistsToFile() const;
-    void loadPlaylistsFromFile();
-
     std::vector<Playlist> m_playlists;
     MediaLibrary* m_mediaLibrary;
-    QString m_saveFilePath; // Caminho para o nosso arquivo JSON
 };
 
 #endif //SPOTIFYCLONE_PLAYLISTMANAGER_H

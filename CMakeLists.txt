@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(PhantomPlayer)
+project(phantom_player) # Nome do projeto atualizado
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,7 +19,7 @@ find_library(TAGLIB_LIBRARY_FILE NAMES tag)
 
 qt_add_resources(RESOURCES resources/resources.qrc)
 
-add_executable(spotify_clone
+add_executable(phantom_player
     src/main.cpp
     src/core/AudioEngine.cpp
     src/core/MediaLibrary.cpp
@@ -30,13 +30,13 @@ add_executable(spotify_clone
     ${RESOURCES}
 )
 
-target_include_directories(spotify_clone PRIVATE
+target_include_directories(phantom_player PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/third_party # <-- Esta linha é importante
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party
     ${TAGLIB_INCLUDE_DIRS}
 )
 
-target_link_libraries(spotify_clone PRIVATE
+target_link_libraries(phantom_player PRIVATE
     Qt6::Widgets
     Qt6::Gui
     SFML::Audio

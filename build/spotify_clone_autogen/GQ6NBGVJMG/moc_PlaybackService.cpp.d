@@ -1,5 +1,5 @@
-/Users/milenamadsen/CLionProjects/untitled/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/untitled/src/services/PlaybackService.h \
-  /Users/milenamadsen/CLionProjects/untitled/build/spotify_clone_autogen/moc_predefs.h \
+/Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/moc_predefs.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -757,9 +757,9 @@
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/__stdarg_va_list.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/limits.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/stdarg.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/AudioEngine.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/MediaLibrary.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/Track.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/AudioEngine.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/MediaLibrary.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Track.h \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio.hpp \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/AudioResource.hpp \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Export.hpp \

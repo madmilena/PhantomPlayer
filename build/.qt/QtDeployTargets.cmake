@@ -1,2 +1,2 @@
-set(__QT_DEPLOY_TARGET_spotify_clone_FILE /Users/milenamadsen/CLionProjects/untitled/build/spotify_clone)
-set(__QT_DEPLOY_TARGET_spotify_clone_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_phantom_player_FILE /Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player)
+set(__QT_DEPLOY_TARGET_phantom_player_TYPE EXECUTABLE)
