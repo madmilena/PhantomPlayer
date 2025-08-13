@@ -2,30 +2,34 @@
 #define PHANTOMPLAYER_PLAYLISTMANAGER_H
 
 #include <QObject>
+#include <vector>
+#include <QString>
 #include "core/Playlist.h"
-#include "core/MediaLibrary.h"
 
 class PlaylistManager : public QObject {
     Q_OBJECT
 
 public:
-    explicit PlaylistManager(MediaLibrary* mediaLibrary, QObject* parent = nullptr);
+    explicit PlaylistManager(QObject* parent = nullptr);
 
     void createNewPlaylist(const QString& name);
-    void addTrackToPlaylist(int playlistIndex, int trackIndex);
+    void addTrackToPlaylist(int playlistIndex, int trackId);
     void deletePlaylist(int playlistIndex);
     void removeTrackFromPlaylist(int playlistIndex, int trackIndex);
-    const std::vector<Playlist>& getPlaylists() const;
 
-    bool savePlaylistsToFile(const QString& filePath) const;
+    // --- Assinaturas Corretas ---
+    // A função de salvar deve ser 'const' pois apenas lê os dados.
+    [[nodiscard]] bool savePlaylistsToFile(const QString& filePath) const;
+    // A função de carregar modifica o estado, então não é 'const' e retorna sucesso/falha.
     bool loadPlaylistsFromFile(const QString& filePath);
+
+    [[nodiscard]] const std::vector<Playlist>& getPlaylists() const;
 
     signals:
         void playlistsChanged();
 
 private:
     std::vector<Playlist> m_playlists;
-    MediaLibrary* m_mediaLibrary;
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTMANAGER_H
