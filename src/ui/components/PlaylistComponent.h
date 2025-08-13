@@ -2,36 +2,37 @@
 #define PHANTOMPLAYER_PLAYLISTCOMPONENT_H
 
 #include <QWidget>
-#include <QListWidget>
+#include <QListWidgetItem>
 #include <vector>
-#include "../../core/Track.h"
-#include "../../core/Playlist.h" // supondo que tenha Playlist com id, nome e lista de Tracks
+#include "core/Track.h"
+
+QT_BEGIN_NAMESPACE
+namespace Ui { class PlaylistComponent; }
+QT_END_NAMESPACE
 
 class PlaylistComponent final : public QWidget {
     Q_OBJECT
-public:
-    explicit PlaylistComponent(QWidget* parent = nullptr);
 
-    void setPlaylists(const std::vector<Playlist>& playlists);
-    void setCurrentPlaylist(int playlistId);
+    public:
+    explicit PlaylistComponent(int playlistId, QWidget *parent = nullptr);
+    ~PlaylistComponent() override;
+
     void updateTracks(const std::vector<Track>& tracks);
 
-signals:
-    void trackDoubleClicked(int trackIndex);
-    void playlistSelected(int playlistId);
+    signals:
+        void trackDoubleClicked(QListWidgetItem *item);
+    void removeTrackRequested(int trackIndex);
 
 private slots:
-    void onPlaylistSelected(const QListWidgetItem* item);
-    void onTrackDoubleClicked(const QListWidgetItem* item);
+    void onCustomContextMenuRequested(const QPoint &pos);
+    void onItemDoubleClicked(QListWidgetItem *item);
+
+    // --- NOVO SLOT DECLARADO AQUI ---
+    void onRemoveTrackRequested();
 
 private:
-    void refreshPlaylists() const;
-    void refreshTracks() const;
-
-    QListWidget* m_playlistListWidget;
-    QListWidget* m_tracksListWidget;
-
-    std::vector<Playlist> m_playlists;
-    int m_currentPlaylistId = -1;
+    Ui::PlaylistComponent *ui{};
+    const int m_playlistId;
 };
-#endif // PHANTOMPLAYER_PLAYLISTCOMPONENT_H
+
+#endif //PHANTOMPLAYER_PLAYLISTCOMPONENT_H

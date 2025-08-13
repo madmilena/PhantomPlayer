@@ -1,74 +1,55 @@
 #include "PlaylistComponent.h"
-#include <QVBoxLayout>
-#include <QListWidgetItem>
+#include <QMenu>
+#include <QDebug> // Inclua para usar qDebug
 
-PlaylistComponent::PlaylistComponent(QWidget* parent)
-    : QWidget(parent)
+PlaylistComponent::PlaylistComponent(int playlistId, QWidget *parent)
+    : QWidget(parent), ui(new Ui::PlaylistComponent), m_playlistId(playlistId)
 {
-    auto* layout = new QVBoxLayout(this);
-
-    m_playlistListWidget = new QListWidget(this);
-    m_tracksListWidget = new QListWidget(this);
-
-    layout->addWidget(m_playlistListWidget);
-    layout->addWidget(m_tracksListWidget);
-
-    connect(m_playlistListWidget, &QListWidget::itemClicked, this, &PlaylistComponent::onPlaylistSelected);
-    connect(m_tracksListWidget, &QListWidget::itemDoubleClicked, this, &PlaylistComponent::onTrackDoubleClicked);
+    ui->setupUi(this);
+    ui->trackList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->trackList, &QListWidget::customContextMenuRequested, this, &PlaylistComponent::onCustomContextMenuRequested);
+    connect(ui->trackList, &QListWidget::itemDoubleClicked, this, &PlaylistComponent::onItemDoubleClicked);
 }
 
-void PlaylistComponent::setPlaylists(const std::vector<Playlist>& playlists) {
-    m_playlists = playlists;
-    refreshPlaylists();
+PlaylistComponent::~PlaylistComponent() {
+    delete ui;
 }
 
-void PlaylistComponent::setCurrentPlaylist(int playlistId) {
-    m_currentPlaylistId = playlistId;
-    refreshTracks();
-}
-
-void PlaylistComponent::updateTracks(const std::vector<Track>&) {
-    // This method needs to be reworked since Playlist doesn't have a tracks member
-    // We store track indices, not the actual tracks
-    refreshTracks();
-}
-
-void PlaylistComponent::refreshPlaylists() const {
-    m_playlistListWidget->clear();
-    for (int i = 0; i < m_playlists.size(); ++i) {
-        const auto& playlist = m_playlists[i];
-        auto* item = new QListWidgetItem(playlist.name);
-        item->setData(Qt::UserRole, i); // Use index as ID
-        m_playlistListWidget->addItem(item);
+void PlaylistComponent::updateTracks(const std::vector<Track>& tracks) {
+    ui->trackList->clear();
+    for (const auto& track : tracks) {
+        auto* item = new QListWidgetItem(QString::fromStdString(track.getTitle()));
+        item->setData(Qt::UserRole, track.getId());
+        ui->trackList->addItem(item);
     }
 }
 
-void PlaylistComponent::refreshTracks() const {
-    m_tracksListWidget->clear();
-    if (m_currentPlaylistId >= 0 && m_currentPlaylistId < m_playlists.size()) {
-        const auto& playlist = m_playlists[m_currentPlaylistId];
-        // TODO: We need allTracks here to display them, but we don't have access to them
-        // For now, just display indices
-        for (const int trackIndex : playlist.trackIndices) {
-            auto* item = new QListWidgetItem(QString("Track #%1").arg(trackIndex));
-            item->setData(Qt::UserRole, trackIndex);
-            m_tracksListWidget->addItem(item);
-        }
+void PlaylistComponent::onCustomContextMenuRequested(const QPoint &pos) {
+    // Garantir que um item esteja selecionado antes de mostrar o menu
+    if (ui->trackList->itemAt(pos) == nullptr) {
+        return;
+    }
+
+    QMenu contextMenu(this);
+    QAction* removeAction = contextMenu.addAction("Remover da Playlist"); // Criamos a ação
+
+    // --- A LINHA QUE FALTAVA ESTÁ AQUI ---
+    // Conecta o clique na ação "removeAction" ao nosso novo slot.
+    connect(removeAction, &QAction::triggered, this, &PlaylistComponent::onRemoveTrackRequested);
+
+    contextMenu.exec(ui->trackList->mapToGlobal(pos));
+}
+
+// --- IMPLEMENTAÇÃO DO NOVO SLOT ---
+void PlaylistComponent::onRemoveTrackRequested() {
+    QListWidgetItem* currentItem = ui->trackList->currentItem();
+    if (currentItem) {
+        const int trackIndex = ui->trackList->row(currentItem);
+        qDebug() << "[PASSO 1 - PlaylistComponent] Ação 'Remover' foi clicada! Emitindo sinal para remover a faixa no índice:" << trackIndex;
+        emit removeTrackRequested(trackIndex);
     }
 }
 
-void PlaylistComponent::onPlaylistSelected(const QListWidgetItem* item) {
-    if (!item) return;
-    const int playlistId = item->data(Qt::UserRole).toInt();
-    m_currentPlaylistId = playlistId;
-    refreshTracks();
-    emit playlistSelected(playlistId);
-}
-
-void PlaylistComponent::onTrackDoubleClicked(const QListWidgetItem* item) {
-    if (!item) return;
-    const int trackIndex = item->data(Qt::UserRole).toInt();
-    // We need to emit the trackIndex, not the track itself
-    // The signal should be modified to accept an index
-    emit trackDoubleClicked(trackIndex);
+void PlaylistComponent::onItemDoubleClicked(QListWidgetItem *item) {
+    emit trackDoubleClicked(item);
 }
