@@ -28,15 +28,21 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     setFusionStyle(app);
 
-    MediaLibrary mediaLibrary;
-    MediaLibrary* playbackService(&mediaLibrary);
+    // --- CORREÇÃO FINAL AQUI ---
 
-    // --- CORREÇÃO AQUI ---
-    // Criamos o PlaylistManager usando seu construtor padrão, sem argumentos.
-    // Ele não precisa mais da MediaLibrary no construtor.
+    // 1. Criamos a biblioteca de mídia.
+    MediaLibrary mediaLibrary;
+
+    // 2. Criamos o SERVIÇO de playback, passando a biblioteca para ele.
+    //    A variável é do tipo PlaybackService.
+    PlaybackService playbackService(&mediaLibrary);
+
+    // 3. Criamos o gerenciador de playlists.
     PlaylistManager playlistManager;
 
+    // 4. Criamos a janela principal, passando os ponteiros para os serviços corretos.
     MainWindow mainWindow(&playbackService, &playlistManager);
+
     mainWindow.show();
 
     return QApplication::exec();
