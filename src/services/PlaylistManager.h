@@ -13,15 +13,15 @@ public:
 
     void createNewPlaylist(const QString& name);
     void addTrackToPlaylist(int playlistIndex, int trackIndex);
-    void deletePlaylist(int playlistIndex); // <-- NOVO
-    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- NOVO
+    void deletePlaylist(int playlistIndex);
+    void removeTrackFromPlaylist(int playlistIndex, int trackIndex);
     const std::vector<Playlist>& getPlaylists() const;
 
-    bool savePlaylistsToFile(const QString& filePath);
+    bool savePlaylistsToFile(const QString& filePath) const;
     bool loadPlaylistsFromFile(const QString& filePath);
 
-signals:
-    void playlistsChanged();
+    signals:
+        void playlistsChanged();
 
 private:
     std::vector<Playlist> m_playlists;

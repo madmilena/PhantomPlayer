@@ -17,7 +17,8 @@ BaseTab::BaseTab(QWidget *parent) : QWidget(parent) {
     connect(m_listWidget, &QListWidget::itemDoubleClicked, this, &BaseTab::onItemDoubleClicked);
 }
 
-void BaseTab::updateTrackList(const std::vector<int>& trackIndices, const std::vector<Track>& allTracks) {
+void BaseTab::updateTrackList(const std::vector<int>& trackIndices, const std::vector<Track>& allTracks) const
+{
     m_listWidget->clear();
     for (int trackIndex : trackIndices) {
         if (trackIndex >= 0 && trackIndex < allTracks.size()) {
@@ -33,15 +34,16 @@ void BaseTab::updateTrackList(const std::vector<int>& trackIndices, const std::v
     }
 }
 
-void BaseTab::onItemDoubleClicked(QListWidgetItem* item) {
+void BaseTab::onItemDoubleClicked(const QListWidgetItem* item) {
     if (item) {
-        int trackIndex = item->data(Qt::UserRole).toInt();
+        const int trackIndex = item->data(Qt::UserRole).toInt();
         emit trackDoubleClicked(trackIndex);
     }
 }
 
-void BaseTab::onSearchQueryChanged(const QString& text) {
-    QString lowerCaseQuery = text.toLower();
+void BaseTab::onSearchQueryChanged(const QString& text) const
+{
+    const QString lowerCaseQuery = text.toLower();
     for (int i = 0; i < m_listWidget->count(); ++i) {
         QListWidgetItem* item = m_listWidget->item(i);
         bool matches = item->text().toLower().contains(lowerCaseQuery);
@@ -49,8 +51,8 @@ void BaseTab::onSearchQueryChanged(const QString& text) {
     }
 }
 
-QString BaseTab::formatDuration(int totalSeconds) {
-    int minutes = totalSeconds / 60;
-    int seconds = totalSeconds % 60;
+QString BaseTab::formatDuration(const int totalSeconds) {
+    const int minutes = totalSeconds / 60;
+    const int seconds = totalSeconds % 60;
     return QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 }

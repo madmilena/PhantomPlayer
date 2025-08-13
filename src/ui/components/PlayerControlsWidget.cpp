@@ -5,11 +5,11 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m_repeatMode(RepeatMode::None) { // Inicializa m_repeatMode
+PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m_repeatMode(RepeatMode::None) {
     auto* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0,0,0,0);
     auto* controlsLayout = new QHBoxLayout();
-    
+
     m_progressSlider = new QSlider(Qt::Horizontal, this);
     m_volumeSlider = new QSlider(Qt::Horizontal, this);
     m_volumeSlider->setRange(0, 100);
@@ -26,7 +26,7 @@ PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m
 
     m_repeatButton = new QPushButton("R", this);
     m_repeatButton->setFixedWidth(40);
-    connect(m_repeatButton, &QPushButton::clicked, this, &PlayerControlsWidget::repeatClicked);
+
     controlsLayout->addWidget(m_shuffleButton);
     controlsLayout->addWidget(m_prevButton);
     controlsLayout->addWidget(m_playPauseButton);
@@ -53,7 +53,8 @@ PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m
     connect(m_progressSlider, &QSlider::sliderMoved, this, &PlayerControlsWidget::seeked);
 }
 
-void PlayerControlsWidget::onPlaybackStateChanged(sf::SoundSource::Status status) {
+void PlayerControlsWidget::onPlaybackStateChanged(const sf::SoundSource::Status status) const
+{
     if (status == sf::Music::Status::Playing) {
         m_playPauseButton->setText("Pause");
     } else {
@@ -61,7 +62,8 @@ void PlayerControlsWidget::onPlaybackStateChanged(sf::SoundSource::Status status
     }
 }
 
-void PlayerControlsWidget::onProgressUpdated(int currentSeconds, int totalSeconds) {
+void PlayerControlsWidget::onProgressUpdated(const int currentSeconds, const int totalSeconds) const
+{
     m_progressSlider->blockSignals(true);
     if(m_progressSlider->maximum() != totalSeconds && totalSeconds > 0) {
         m_progressSlider->setRange(0, totalSeconds);
@@ -70,7 +72,8 @@ void PlayerControlsWidget::onProgressUpdated(int currentSeconds, int totalSecond
     m_progressSlider->blockSignals(false);
 }
 
-void PlayerControlsWidget::onVolumeChanged(float volume) {
+void PlayerControlsWidget::onVolumeChanged(const float volume) const
+{
     m_volumeSlider->blockSignals(true);
     m_volumeSlider->setValue(static_cast<int>(volume));
     m_volumeSlider->blockSignals(false);

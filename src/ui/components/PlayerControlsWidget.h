@@ -2,7 +2,7 @@
 #define PHANTOMPLAYER_PLAYERCONTROLSWIDGET_H
 
 #include <QWidget>
-#include "services/PlaybackService.h" // <-- CAMINHO CORRIGIDO
+#include "services/PlaybackService.h"
 
 class QPushButton;
 class QSlider;
@@ -15,9 +15,9 @@ public:
     explicit PlayerControlsWidget(QWidget *parent = nullptr);
 
 public slots:
-    void onPlaybackStateChanged(sf::SoundSource::Status status);
-    void onProgressUpdated(int currentSeconds, int totalSeconds);
-    void onVolumeChanged(float volume);
+    void onPlaybackStateChanged(sf::SoundSource::Status status) const;
+    void onProgressUpdated(int currentSeconds, int totalSeconds) const;
+    void onVolumeChanged(float volume) const;
     void setRepeatButtonMode(RepeatMode mode);
 
     signals:

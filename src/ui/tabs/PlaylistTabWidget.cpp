@@ -1,10 +1,15 @@
 #include "PlaylistTabWidget.h"
+
+#include <qlistwidget.h>
+#include <QMenu>
+
 #include "BaseTab.h"
 
 PlaylistTabWidget::PlaylistTabWidget(QWidget *parent) : QTabWidget(parent) {
     setTabsClosable(true);
     connect(this, &QTabWidget::tabCloseRequested, this, &PlaylistTabWidget::playlistClosed);
 }
+
 
 void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, const std::vector<Track>& allTracks) {
     while (count() > playlists.size()) {
@@ -25,16 +30,16 @@ void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, 
             // --- NOVA LÓGICA ---
             // Habilita o menu de contexto para esta nova aba de playlist
             playlistTab->getListWidget()->setContextMenuPolicy(Qt::CustomContextMenu);
-            connect(playlistTab->getListWidget(), &QWidget::customContextMenuRequested, this, [this, i, playlistTab](){
+            connect(playlistTab->getListWidget(), &QWidget::customContextMenuRequested, this, [this, i, playlistTab]{
                 QListWidgetItem* item = playlistTab->getListWidget()->currentItem();
                 if(!item) return;
 
                 QMenu contextMenu(this);
-                QAction* removeAction = contextMenu.addAction("Remover da Playlist");
+                const QAction* removeAction = contextMenu.addAction("Remover da Playlist");
                 
-                connect(removeAction, &QAction::triggered, this, [this, i, item](){
-                    int trackIndex = item->data(Qt::UserRole).toInt();
-                    emit removeTrackRequested(i, trackIndex); // Emite o sinal com o índice da playlist e da faixa
+                connect(removeAction, &QAction::triggered, this, [this, i, item]{
+                    const int trackIndex = item->data(Qt::UserRole).toInt();
+                    emit removeTrackFromPlaylist(i, trackIndex); // Emite o sinal com o índice da playlist e da faixa
                 });
                 
                 contextMenu.exec(QCursor::pos());

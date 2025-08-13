@@ -47,7 +47,8 @@ const std::vector<Playlist>& PlaylistManager::getPlaylists() const {
     return m_playlists;
 }
 
-bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
+bool PlaylistManager::savePlaylistsToFile(const QString& filePath) const
+{
     json j = json::array();
     const auto& allTracks = m_mediaLibrary->getTracks();
 

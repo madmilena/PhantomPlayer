@@ -15,3 +15,7 @@ SearchBarWidget::SearchBarWidget(QWidget *parent) : QWidget(parent) {
 QString SearchBarWidget::text() const {
     return m_searchBar->text();
 }
+
+void SearchBarWidget::clear() {
+    m_searchBar->clear();
+}

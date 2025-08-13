@@ -13,6 +13,7 @@ class LibraryTabWidget : public BaseTab {
 public:
     explicit LibraryTabWidget(QWidget* parent = nullptr);
     void updateTrackList(const std::vector<Track>& tracks);
+    void clearSearch();
 
 signals:
     void addToPlaylistRequested(int trackIndex);

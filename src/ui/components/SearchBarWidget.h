@@ -12,6 +12,7 @@ class SearchBarWidget : public QWidget {
 public:
     explicit SearchBarWidget(QWidget* parent = nullptr);
     QString text() const;
+    void clear();
 
 signals:
     void searchQueryChanged(const QString& text);

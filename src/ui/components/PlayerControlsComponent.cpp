@@ -45,11 +45,13 @@ void PlayerControlsComponent::onPlaybackStateChanged(bool isPlaying) {
     m_playPauseButton->setText(isPlaying ? "Pause" : "Play");
 }
 
-void PlayerControlsComponent::onProgressUpdated(int position) {
+void PlayerControlsComponent::onProgressUpdated(const int position) const
+{
     m_seekSlider->setValue(position);
 }
 
-void PlayerControlsComponent::onVolumeChanged(int value) {
+void PlayerControlsComponent::onVolumeChanged(const int value) const
+{
     m_volumeSlider->setValue(value);
 }
 

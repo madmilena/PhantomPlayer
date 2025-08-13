@@ -11,7 +11,7 @@ class LibraryTabWidget;
 class PlaylistTabWidget;
 class QTabWidget;
 
-class MainWindow : public QMainWindow {
+class MainWindow final : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -19,14 +19,15 @@ public:
     ~MainWindow() override;
 
 private slots:
-    void onTrackChanged(const Track& track);
+    void onTrackChanged(const Track& track) const;
     void createNewPlaylist();
-    void addTrackToPlaylist(int trackIndex);
-    void onPlaylistsChanged();
-    void deletePlaylist(int index);
+    void addTrackToPlaylist(int trackIndex) const;
+    void onPlaylistsChanged() const;
+    void deletePlaylist(int index) const;
     void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- NOVO SLOT
     void onSavePlaylists();
     void onLoadPlaylists();
+    void onTabChanged(int index);
 
 private:
     void setupUI();

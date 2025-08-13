@@ -4,10 +4,10 @@
 #include <QWidget>
 #include <QListWidget>
 #include <vector>
-#include "../core/Track.h"
-#include "../core/Playlist.h" // supondo que tenha Playlist com id, nome e lista de Tracks
+#include "../../core/Track.h"
+#include "../../core/Playlist.h" // supondo que tenha Playlist com id, nome e lista de Tracks
 
-class PlaylistComponent : public QWidget {
+class PlaylistComponent final : public QWidget {
     Q_OBJECT
 public:
     explicit PlaylistComponent(QWidget* parent = nullptr);
@@ -17,16 +17,16 @@ public:
     void updateTracks(const std::vector<Track>& tracks);
 
 signals:
-    void trackDoubleClicked(Track track);
+    void trackDoubleClicked(int trackIndex);
     void playlistSelected(int playlistId);
 
 private slots:
-    void onPlaylistSelected(QListWidgetItem* item);
-    void onTrackDoubleClicked(QListWidgetItem* item);
+    void onPlaylistSelected(const QListWidgetItem* item);
+    void onTrackDoubleClicked(const QListWidgetItem* item);
 
 private:
-    void refreshPlaylists();
-    void refreshTracks();
+    void refreshPlaylists() const;
+    void refreshTracks() const;
 
     QListWidget* m_playlistListWidget;
     QListWidget* m_tracksListWidget;

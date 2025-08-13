@@ -10,9 +10,9 @@ class PlayerInfoWidget : public QWidget {
 public:
     explicit PlayerInfoWidget(QWidget* parent = nullptr);
 
-    void setAlbumArt(const QPixmap& pixmap);
-    void setTitle(const QString& title);
-    void setArtist(const QString& artist);
+    void setAlbumArt(const QPixmap& pixmap) const;
+    void setTitle(const QString& title) const;
+    void setArtist(const QString& artist) const;
 
 private:
     QLabel* m_albumArtLabel;

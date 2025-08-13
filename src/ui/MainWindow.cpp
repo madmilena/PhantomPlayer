@@ -4,25 +4,21 @@
 #include "tabs/LibraryTabWidget.h"
 #include "tabs/PlaylistTabWidget.h"
 #include <QMenuBar>
-#include <QMenu>
-#include <QAction>
 #include <QFileDialog>
-#include <QDir>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QInputDialog>
-#include <QTabWidget>
 #include <QPushButton>
 #include <iostream>
 
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
-    : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager) {
-    
+    : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager),
+      m_libraryTab(nullptr), m_playerControls(nullptr)
+{
     setWindowTitle("Phantom Player");
     resize(1000, 600);
     setupUI();
     setupConnections();
-    
+
     m_libraryTab->updateTrackList(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
     onPlaylistsChanged();
@@ -46,8 +42,8 @@ void MainWindow::createWidgets() {
 void MainWindow::setupLayouts() {
     QMenuBar* menuBar = this->menuBar();
     QMenu* fileMenu = menuBar->addMenu("Arquivo");
-    QAction* saveAction = new QAction("Salvar Playlists...", this);
-    QAction* loadAction = new QAction("Carregar Playlists...", this);
+    const auto saveAction = new QAction("Salvar Playlists...", this);
+    const auto loadAction = new QAction("Carregar Playlists...", this);
     fileMenu->addAction(saveAction);
     fileMenu->addAction(loadAction);
     
@@ -87,71 +83,68 @@ void MainWindow::setupConnections() {
     connect(m_playerControls, &PlayerControlsWidget::volumeChanged, this, [this](int value){ m_playbackService->setVolume(static_cast<float>(value)); });
     connect(m_playerControls, &PlayerControlsWidget::seeked, m_playbackService, &PlaybackService::seek);
     connect(m_playerControls, &PlayerControlsWidget::repeatClicked, this, [this](){
-        // Esta lógica de ciclar o modo permanece na MainWindow, pois é um estado da UI
         RepeatMode currentMode = m_playbackService->getRepeatMode();
-        RepeatMode nextMode = static_cast<RepeatMode>((static_cast<int>(currentMode) + 1) % 3);
+        const auto nextMode = static_cast<RepeatMode>((static_cast<int>(currentMode) + 1) % 3);
         m_playbackService->setRepeatMode(nextMode);
         m_playerControls->setRepeatButtonMode(nextMode);
     });
-    
-
     connect(m_playbackService, &PlaybackService::trackChanged, this, &MainWindow::onTrackChanged);
     connect(m_playbackService, &PlaybackService::playbackStateChanged, m_playerControls, &PlayerControlsWidget::onPlaybackStateChanged);
     connect(m_playbackService, &PlaybackService::progressUpdated, m_playerControls, &PlayerControlsWidget::onProgressUpdated);
     connect(m_playbackService, &PlaybackService::volumeChanged, m_playerControls, &PlayerControlsWidget::onVolumeChanged);
-    
     connect(m_playlistManager, &PlaylistManager::playlistsChanged, this, &MainWindow::onPlaylistsChanged);
-    
     connect(m_libraryTab, &LibraryTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_playlistTabs, &PlaylistTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_libraryTab, &LibraryTabWidget::addToPlaylistRequested, this, &MainWindow::addTrackToPlaylist);
     connect(m_playlistTabs, &PlaylistTabWidget::playlistClosed, this, &MainWindow::deletePlaylist);
-    connect(m_playlistTabs, &PlaylistTabWidget::removeTrackFromPlaylist, this, &MainWindow::removeTrackFromPlaylist);
+    connect(m_mainTabs, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
 }
 
-void MainWindow::onTrackChanged(const Track& track) {
+void MainWindow::onTrackChanged(const Track& track) const
+{
     m_trackDetails->updateDetails(track);
 }
 
 void MainWindow::createNewPlaylist() {
     bool ok;
-    QString name = QInputDialog::getText(this, "Nova Playlist", "Nome da Playlist:", QLineEdit::Normal, "", &ok);
-    if (ok && !name.isEmpty()) {
+    if (const QString name = QInputDialog::getText(this, "Nova Playlist", "Nome da Playlist:", QLineEdit::Normal, "", &ok); ok && !name.isEmpty()) {
         m_playlistManager->createNewPlaylist(name);
     }
 }
 
-void MainWindow::addTrackToPlaylist(int trackIndex) {
-    int playlistIndex = m_playlistTabs->currentIndex();
-    if (playlistIndex >= 0) {
+void MainWindow::addTrackToPlaylist(const int trackIndex) const
+{
+    if (const int playlistIndex = m_playlistTabs->currentIndex(); playlistIndex >= 0) {
         m_playlistManager->addTrackToPlaylist(playlistIndex, trackIndex);
     } else {
         std::cout << "Nenhuma playlist selecionada para adicionar a musica." << std::endl;
     }
 }
 
-void MainWindow::deletePlaylist(int index) {
+void MainWindow::deletePlaylist(const int index) const
+{
     m_playlistManager->deletePlaylist(index);
 }
 
-void MainWindow::onPlaylistsChanged() {
+void MainWindow::onPlaylistsChanged() const
+{
     m_playlistTabs->updatePlaylists(m_playlistManager->getPlaylists(), m_playbackService->getTracks());
 }
 
 void MainWindow::onSavePlaylists() {
-    QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)");
-    if (!filePath.isEmpty()) {
+    if (const QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)"); !filePath.isEmpty()) {
         m_playlistManager->savePlaylistsToFile(filePath);
     }
 }
 
 void MainWindow::onLoadPlaylists() {
-    QString filePath = QFileDialog::getOpenFileName(this, "Carregar Playlists", QDir::homePath(), "JSON Files (*.json)");
-    if (!filePath.isEmpty()) {
+    if (const QString filePath = QFileDialog::getOpenFileName(this, "Carregar Playlists", QDir::homePath(), "JSON Files (*.json)"); !filePath.isEmpty()) {
         m_playlistManager->loadPlaylistsFromFile(filePath);
     }
 }
-// --- NOVA IMPLEMENTAÇÃO ---
-void MainWindow::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
-    m_playlistManager->removeTrackFromPlaylist(playlistIndex, trackIndex);
+
+void MainWindow::onTabChanged(const int index) {
+    if (index == 1) {
+        m_libraryTab->clearSearch();
+    }
 }

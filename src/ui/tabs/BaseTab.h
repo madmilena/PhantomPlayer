@@ -17,17 +17,18 @@ class BaseTab : public QWidget {
 
 public:
     explicit BaseTab(QWidget* parent = nullptr);
-    void updateTrackList(const std::vector<int>& trackIndices, const std::vector<Track>& allTracks);
+    void updateTrackList(const std::vector<int>& trackIndices, const std::vector<Track>& allTracks) const;
+    QListWidget* getListWidget() const { return m_listWidget; }
 
 signals:
     void trackDoubleClicked(int trackIndex);
 
 protected slots:
-    void onItemDoubleClicked(QListWidgetItem* item);
-    void onSearchQueryChanged(const QString& text);
+    void onItemDoubleClicked(const QListWidgetItem* item);
+    void onSearchQueryChanged(const QString& text) const;
 
 protected:
-    QString formatDuration(int totalSeconds);
+    static QString formatDuration(int totalSeconds);
 
     QListWidget* m_listWidget;
     SearchBarWidget* m_searchBar;

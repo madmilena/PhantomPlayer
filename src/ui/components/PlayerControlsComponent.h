@@ -6,7 +6,7 @@
 class QPushButton;
 class QSlider;
 
-class PlayerControlsComponent : public QWidget {
+class PlayerControlsComponent final : public QWidget {
     Q_OBJECT
 public:
     explicit PlayerControlsComponent(QWidget* parent = nullptr);
@@ -23,8 +23,8 @@ signals:
 
 public slots:
     void onPlaybackStateChanged(bool isPlaying);
-    void onProgressUpdated(int position);
-    void onVolumeChanged(int value);
+    void onProgressUpdated(int position) const;
+    void onVolumeChanged(int value) const;
 
 private:
     QPushButton* m_playPauseButton;

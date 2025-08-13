@@ -29,12 +29,13 @@ void TrackDetailsComponent::setupUI() {
     layout->addWidget(m_artistLabel);
 }
 
-void TrackDetailsComponent::updateDetails(const Track& track) {
+void TrackDetailsComponent::updateDetails(const Track& track) const
+{
     m_titleLabel->setText(QString::fromStdString(track.title));
     m_artistLabel->setText(QString::fromStdString(track.artist));
 
     if (!track.albumArt.isNull()) {
-        QPixmap pixmap = QPixmap::fromImage(track.albumArt);
+        const QPixmap pixmap = QPixmap::fromImage(track.albumArt);
         m_albumArtLabel->setPixmap(pixmap.scaled(m_albumArtLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     } else {
         m_albumArtLabel->clear();

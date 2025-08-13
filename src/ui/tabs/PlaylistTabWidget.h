@@ -9,7 +9,7 @@
 class BaseTab;
 class QListWidgetItem;
 
-class PlaylistTabWidget : public QTabWidget {
+class PlaylistTabWidget final : public QTabWidget {
     Q_OBJECT
 
 public:

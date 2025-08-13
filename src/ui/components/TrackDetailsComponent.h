@@ -13,7 +13,7 @@ public:
     explicit TrackDetailsComponent(QWidget* parent = nullptr);
 
 public slots:
-    void updateDetails(const Track& track);
+    void updateDetails(const Track& track) const;
 
 private:
     void setupUI(); // <-- Declaração adicionada
