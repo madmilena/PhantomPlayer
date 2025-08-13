@@ -1,6 +1,7 @@
 #include "LibraryTabWidget.h"
 #include <QListWidget>
 #include <QMenu>
+#include <QVBoxLayout>
 #include <QVariant>
 #include <numeric>
 

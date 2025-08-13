@@ -4,12 +4,6 @@
 #include <QVariant>
 #include "ui/components/SearchBarWidget.h"
 
-#include "BaseTab.h"
-#include <QListWidget>
-#include <QVBoxLayout>
-#include <QVariant>
-#include "ui/components/SearchBarWidget.h"
-
 BaseTab::BaseTab(QWidget *parent) : QWidget(parent) {
     auto* layout = new QVBoxLayout(this);
     m_searchBar = new SearchBarWidget(this);
