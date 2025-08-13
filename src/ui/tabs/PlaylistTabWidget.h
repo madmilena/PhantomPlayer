@@ -22,7 +22,7 @@ public:
     void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- SINAL ADICIONADO
 
 private slots:
-    void onTrackDoubleClicked(QListWidgetItem* item);
+    void onTrackDoubleClicked(int item);
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTTABWIDGET_H

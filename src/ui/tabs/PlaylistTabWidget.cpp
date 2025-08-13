@@ -50,3 +50,13 @@ void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, 
         playlistTab->updateTrackList(playlists[i].trackIndices, allTracks);
     }
 }
+// **********************************************************************
+// **** ADICIONE ESTA FUNÇÃO QUE FALTA AO SEU ARQUIVO .CPP ****
+// **********************************************************************
+void PlaylistTabWidget::onTrackDoubleClicked(const int item)
+{
+    // Este slot recebe o sinal de clique duplo da lista.
+    // A sua única responsabilidade é emitir o nosso próprio sinal personalizado
+    // para que a MainWindow possa ouvi-lo.
+    emit trackDoubleClicked(item);
+}
