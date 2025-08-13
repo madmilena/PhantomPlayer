@@ -4,17 +4,12 @@
 #include <QMainWindow>
 #include "../services/PlaybackService.h"
 #include "../services/PlaylistManager.h"
-#include "../core/Track.h"
 
-// Forward declarations
-class QListWidget;
-class QListWidgetItem;
-class QLabel;
 class PlayerControlsWidget;
-class QLineEdit;
+class TrackDetailsComponent;
+class LibraryTabWidget;
+class PlaylistTabWidget;
 class QTabWidget;
-class QMenu;
-class QAction;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -24,37 +19,28 @@ public:
     ~MainWindow() override;
 
 private slots:
-    void onTrackChanged(const Track& track, int index);
-    void trackDoubleClicked(QListWidgetItem* item);
-    void repeatButtonClicked();
-    void onSearchQueryChanged(const QString& text);
-    void showTrackContextMenu(const QPoint& pos);
+    void onTrackChanged(const Track& track);
     void createNewPlaylist();
-    void addTrackToSelectedPlaylist(QAction* action);
+    void addTrackToPlaylist(int trackIndex);
     void onPlaylistsChanged();
-    void onTabChanged(int index);
+    void deletePlaylist(int index);
+    void onSavePlaylists();
+    void onLoadPlaylists();
 
 private:
     void setupUI();
     void createWidgets();
     void setupLayouts();
     void setupConnections();
-    void connectListWidget(QListWidget* listWidget);
-    void updateLibraryTab(const std::vector<Track>& tracks);
-    QString formatDuration(int totalSeconds);
 
     PlaybackService* m_playbackService;
     PlaylistManager* m_playlistManager;
-    RepeatMode m_repeatMode = RepeatMode::None;
 
-    QTabWidget* m_tabWidget;
-    QLineEdit* m_searchBar;
-    QLabel* m_albumArtLabel;
-    QLabel* m_titleLabel;
-    QLabel* m_artistLabel;
+    QTabWidget* m_mainTabs;
+    LibraryTabWidget* m_libraryTab;
+    PlaylistTabWidget* m_playlistTabs;
+    TrackDetailsComponent* m_trackDetails;
     PlayerControlsWidget* m_playerControls;
-    QMenu* m_trackContextMenu;
-    QMenu* m_addToPlaylistMenu;
 };
 
 #endif //SPOTIFYCLONE_MAINWINDOW_H

@@ -19,24 +19,37 @@ find_library(TAGLIB_LIBRARY_FILE NAMES tag)
 
 qt_add_resources(RESOURCES resources/resources.qrc)
 
-add_executable(spotify_clone
+# Lista de todos os arquivos fonte da sua nova arquitetura
+add_executable(phantom_player
     src/main.cpp
     src/core/AudioEngine.cpp
     src/core/MediaLibrary.cpp
     src/services/PlaybackService.cpp
     src/services/PlaylistManager.cpp
+    
+    # --- UI ---
     src/ui/MainWindow.cpp
-    src/ui/PlayerControlsWidget.cpp
+    
+    # --- Componentes da UI ---
+    src/ui/components/SearchBarWidget.cpp
+    src/ui/components/TrackDetailsComponent.cpp
+    src/ui/components/PlayerControlsWidget.cpp
+    
+    # --- Abas da UI ---
+    src/ui/tabs/BaseTab.cpp
+    src/ui/tabs/LibraryTabWidget.cpp
+    src/ui/tabs/PlaylistTabWidget.cpp
+    
     ${RESOURCES}
 )
 
-target_include_directories(spotify_clone PRIVATE
+target_include_directories(phantom_player PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/third_party # <-- Esta linha é importante
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party
     ${TAGLIB_INCLUDE_DIRS}
 )
 
-target_link_libraries(spotify_clone PRIVATE
+target_link_libraries(phantom_player PRIVATE
     Qt6::Widgets
     Qt6::Gui
     SFML::Audio

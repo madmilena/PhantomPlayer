@@ -1,9 +1,9 @@
-#ifndef SPOTIFYCLONE_PLAYLISTMANAGER_H
-#define SPOTIFYCLONE_PLAYLISTMANAGER_H
+#ifndef PHANTOMPLAYER_PLAYLISTMANAGER_H
+#define PHANTOMPLAYER_PLAYLISTMANAGER_H
 
 #include <QObject>
-#include "../core/Playlist.h"
-#include "../core/MediaLibrary.h"
+#include "core/Playlist.h"
+#include "core/MediaLibrary.h"
 
 class PlaylistManager : public QObject {
     Q_OBJECT
@@ -13,18 +13,18 @@ public:
 
     void createNewPlaylist(const QString& name);
     void addTrackToPlaylist(int playlistIndex, int trackIndex);
+    void deletePlaylist(int playlistIndex);
     const std::vector<Playlist>& getPlaylists() const;
+
+    bool savePlaylistsToFile(const QString& filePath);
+    bool loadPlaylistsFromFile(const QString& filePath);
 
 signals:
     void playlistsChanged();
 
 private:
-    void savePlaylistsToFile() const;
-    void loadPlaylistsFromFile();
-
     std::vector<Playlist> m_playlists;
     MediaLibrary* m_mediaLibrary;
-    QString m_saveFilePath; // Caminho para o nosso arquivo JSON
 };
 
-#endif //SPOTIFYCLONE_PLAYLISTMANAGER_H
+#endif //PHANTOMPLAYER_PLAYLISTMANAGER_H

@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_spotify_clone_FILE /Users/milenamadsen/CLionProjects/untitled/build/spotify_clone)
-set(__QT_DEPLOY_TARGET_spotify_clone_TYPE EXECUTABLE)

@@ -1,5 +1,0 @@
-/Users/milenamadsen/CLionProjects/untitled/build/CMakeFiles/spotify_clone.dir
-/Users/milenamadsen/CLionProjects/untitled/build/CMakeFiles/edit_cache.dir
-/Users/milenamadsen/CLionProjects/untitled/build/CMakeFiles/rebuild_cache.dir
-/Users/milenamadsen/CLionProjects/untitled/build/CMakeFiles/spotify_clone_autogen_timestamp_deps.dir
-/Users/milenamadsen/CLionProjects/untitled/build/CMakeFiles/spotify_clone_autogen.dir

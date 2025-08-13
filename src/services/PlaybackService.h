@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include <vector>
-#include "../core/AudioEngine.h"
-#include "../core/MediaLibrary.h"
+#include "core/AudioEngine.h"
+#include "core/MediaLibrary.h"
 
 enum class RepeatMode {
     None,
@@ -20,7 +20,8 @@ public:
 
     const std::vector<Track>& getTracks() const;
     float getInitialVolume() const;
-    MediaLibrary* getMediaLibrary(); // <-- NOVA FUNÇÃO
+    MediaLibrary* getMediaLibrary();
+    RepeatMode getRepeatMode() const; // <-- FUNÇÃO ADICIONADA
 
 public slots:
     void playTrack(int index);

@@ -22,6 +22,16 @@ float PlaybackService::getInitialVolume() const {
     return m_audioEngine.getVolume();
 }
 
+MediaLibrary* PlaybackService::getMediaLibrary() {
+    return &m_mediaLibrary;
+}
+
+// --- IMPLEMENTAÇÃO DA FUNÇÃO QUE FALTAVA ---
+RepeatMode PlaybackService::getRepeatMode() const {
+    return m_repeatMode;
+}
+// ------------------------------------------
+
 void PlaybackService::generateShuffleList() {
     const auto& tracks = m_mediaLibrary.getTracks();
     m_shuffledIndices.resize(tracks.size());
@@ -53,7 +63,7 @@ void PlaybackService::togglePlayPause() {
     }
 
     auto status = m_audioEngine.getStatus();
-    if (status == sf::Music::Status::Playing) { // CORRIGIDO
+    if (status == sf::Music::Status::Playing) {
         m_audioEngine.pause();
     } else {
         m_audioEngine.resume();
@@ -65,7 +75,7 @@ void PlaybackService::stop() {
     m_audioEngine.stop();
     m_currentTrackIndex = -1;
     m_progressTimer->stop();
-    emit playbackStateChanged(sf::Music::Status::Stopped); // CORRIGIDO
+    emit playbackStateChanged(sf::Music::Status::Stopped);
     emit progressUpdated(0, 0);
 }
 
@@ -162,17 +172,13 @@ void PlaybackService::setVolume(float volume) {
 
 void PlaybackService::onEngineStatusChange() {
     auto status = m_audioEngine.getStatus();
-    if (status == sf::Music::Status::Playing) { // CORRIGIDO
+    if (status == sf::Music::Status::Playing) {
         if (m_currentTrackIndex != -1) {
             int current = m_audioEngine.getPlayingOffset().asSeconds();
             int total = getTracks()[m_currentTrackIndex].durationInSeconds;
             emit progressUpdated(current, total);
         }
-    } else if (status == sf::Music::Status::Stopped && m_currentTrackIndex != -1) { // CORRIGIDO
+    } else if (status == sf::Music::Status::Stopped && m_currentTrackIndex != -1) {
         next();
     }
 }
-
-MediaLibrary* PlaybackService::getMediaLibrary() {
-    return &m_mediaLibrary;
-} // <-- NOVA IMPLEMENTAÇÃO

@@ -5,7 +5,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m_repeatMode(RepeatMode::None) { // Inicializa m_repeatMode
+PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m_repeatMode(RepeatMode::None) {
     auto* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0,0,0,0);
     auto* controlsLayout = new QHBoxLayout();
@@ -26,7 +26,7 @@ PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m
 
     m_repeatButton = new QPushButton("R", this);
     m_repeatButton->setFixedWidth(40);
-    connect(m_repeatButton, &QPushButton::clicked, this, &PlayerControlsWidget::repeatClicked);
+
     controlsLayout->addWidget(m_shuffleButton);
     controlsLayout->addWidget(m_prevButton);
     controlsLayout->addWidget(m_playPauseButton);
