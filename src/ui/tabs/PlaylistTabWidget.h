@@ -6,23 +6,26 @@
 #include "core/Playlist.h"
 #include "core/Track.h"
 
-class BaseTab;
 class QListWidgetItem;
 
-class PlaylistTabWidget final : public QTabWidget {
+class PlaylistTabWidget : public QTabWidget {
     Q_OBJECT
 
 public:
     explicit PlaylistTabWidget(QWidget* parent = nullptr);
+    ~PlaylistTabWidget() override;
+
     void updatePlaylists(const std::vector<Playlist>& playlists, const std::vector<Track>& allTracks);
 
     signals:
-        void trackDoubleClicked(int trackIndex);
-    void playlistClosed(int index);
-    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- SINAL ADICIONADO
+        // Sinais que a MainWindow vai ouvir.
+        void trackDoubleClicked(QListWidgetItem* item);
+    void removeTrackFromPlaylist(int playlistIndex, int trackIndex);
+    void playlistClosed(int playlistIndex);
 
 private slots:
-    void onTrackDoubleClicked(int item);
+    // Slot para lidar com o fechamento de abas.
+    void onTabCloseRequested(int index);
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTTABWIDGET_H

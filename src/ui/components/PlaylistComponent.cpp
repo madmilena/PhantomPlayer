@@ -3,10 +3,9 @@
 #include <QListWidget>
 #include <QMenu>
 #include <QDebug>
-#include <algorithm> // Necessário para std::find_if
 
-PlaylistComponent::PlaylistComponent(int playlistId, QWidget *parent)
-    : QWidget(parent), m_playlistId(playlistId)
+PlaylistComponent::PlaylistComponent(QWidget *parent)
+    : QWidget(parent)
 {
     auto* layout = new QVBoxLayout(this);
     m_trackList = new QListWidget(this);
@@ -19,46 +18,40 @@ PlaylistComponent::PlaylistComponent(int playlistId, QWidget *parent)
     connect(m_trackList, &QListWidget::itemDoubleClicked, this, &PlaylistComponent::onItemDoubleClicked);
 }
 
-void PlaylistComponent::updateTracks(const std::vector<int>& trackIds, const std::vector<Track>& allTracks) {
+PlaylistComponent::~PlaylistComponent() = default;
+
+void PlaylistComponent::updateTrackList(const std::vector<Track>& tracks) {
     m_trackList->clear();
-    for (const int currentTrackId : trackIds) {
-        // --- CORREÇÃO FINAL AQUI ---
-        // Usando o nome correto da variável: .trackId
-        if (auto it = std::find_if(allTracks.begin(), allTracks.end(), [currentTrackId](const Track& t){ return t.trackId == currentTrackId; }); it != allTracks.end()) {
-            const Track& track = *it;
-
-            // Usando o nome correto da variável: .title
-            auto* item = new QListWidgetItem(QString::fromStdString(track.title));
-
-            // Usando o nome correto da variável: .trackId
-            item->setData(Qt::UserRole, track.trackId);
-            m_trackList->addItem(item);
-        }
+    for (const auto& track : tracks) {
+        // Usamos os nomes corretos das variáveis da sua struct Track
+        auto* item = new QListWidgetItem(QString::fromStdString(track.artist + " - " + track.title));
+        item->setData(Qt::UserRole, track.trackId);
+        m_trackList->addItem(item);
     }
 }
 
+void PlaylistComponent::onItemDoubleClicked(QListWidgetItem *item) {
+    // Simplesmente repassa o sinal para cima.
+    emit trackDoubleClicked(item);
+}
+
 void PlaylistComponent::onCustomContextMenuRequested(const QPoint &pos) {
-    if (m_trackList->itemAt(pos) == nullptr) {
+    QListWidgetItem* item = m_trackList->itemAt(pos);
+    if (!item) {
         return;
     }
 
     QMenu contextMenu(this);
     QAction* removeAction = contextMenu.addAction("Remover da Playlist");
 
-    connect(removeAction, &QAction::triggered, this, &PlaylistComponent::onRemoveTrackTriggered);
+    // Conecta o clique na ação a uma lambda que emite o sinal.
+    connect(removeAction, &QAction::triggered, this, [this, item]() {
+        // Pegamos o índice da linha do item clicado.
+        const int trackIndex = m_trackList->row(item);
+        qDebug() << "[PlaylistComponent] Emitindo pedido para remover faixa no índice:" << trackIndex;
+        // Emitimos o sinal com o índice da faixa DENTRO desta playlist.
+        emit removeTrackRequested(trackIndex);
+    });
 
     contextMenu.exec(m_trackList->mapToGlobal(pos));
-}
-
-void PlaylistComponent::onRemoveTrackTriggered() {
-    QListWidgetItem* currentItem = m_trackList->currentItem();
-    if (currentItem) {
-        const int trackIndex = m_trackList->row(currentItem);
-        qDebug() << "[PASSO 1 - PlaylistComponent] Ação 'Remover' foi clicada! Emitindo sinal para remover a faixa no índice:" << trackIndex;
-        emit removeTrackRequested(trackIndex);
-    }
-}
-
-void PlaylistComponent::onItemDoubleClicked(QListWidgetItem *item) {
-    emit trackDoubleClicked(item);
 }

@@ -5,32 +5,31 @@
 #include <vector>
 #include "core/Track.h"
 
-// Forward declarations para compilação mais rápida
 class QListWidget;
 class QListWidgetItem;
 
+// Herda diretamente de QWidget para maior simplicidade e clareza.
 class PlaylistComponent final : public QWidget {
     Q_OBJECT
 
     public:
-    explicit PlaylistComponent(int playlistId, QWidget *parent = nullptr);
-    ~PlaylistComponent() override = default; // Usar default é uma boa prática
+    explicit PlaylistComponent(QWidget *parent = nullptr);
+    ~PlaylistComponent() override;
 
-    void updateTracks(const std::vector<int>& trackIds, const std::vector<Track>& allTracks);
+    // Método específico para atualizar esta lista com as faixas corretas.
+    void updateTrackList(const std::vector<Track>& tracks);
 
     signals:
+        // Sinais que a PlaylistTabWidget vai ouvir.
         void trackDoubleClicked(QListWidgetItem *item);
     void removeTrackRequested(int trackIndex);
 
 private slots:
-    void onCustomContextMenuRequested(const QPoint &pos);
+    // Slots internos para lidar com eventos da QListWidget.
     void onItemDoubleClicked(QListWidgetItem *item);
-
-    // --- O NOVO SLOT PARA A AÇÃO DE REMOVER ---
-    void onRemoveTrackTriggered();
+    void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
-    const int m_playlistId;
     QListWidget* m_trackList;
 };
 
