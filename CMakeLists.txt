@@ -8,10 +8,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_PREFIX_PATH "/usr/local/opt/qt")
-find_package(Qt6 COMPONENTS Widgets Gui REQUIRED)
+# Adicione (append) todos os prefixos necessários em vez de sobrescrever
+list(APPEND CMAKE_PREFIX_PATH "/usr/local/opt/qt")
+list(APPEND CMAKE_PREFIX_PATH "/Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit")
 
-set(CMAKE_PREFIX_PATH "/Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit")
+# Inclua o Core, pois QTextStream está no QtCore
+find_package(Qt6 COMPONENTS Widgets Gui Core REQUIRED)
+
 find_package(SFML 3.0 REQUIRED COMPONENTS Audio)
 
 find_package(TagLib REQUIRED)
@@ -19,27 +22,26 @@ find_library(TAGLIB_LIBRARY_FILE NAMES tag)
 
 qt_add_resources(RESOURCES resources/resources.qrc)
 
-# Lista de todos os arquivos fonte da sua nova arquitetura
 add_executable(phantom_player
     src/main.cpp
     src/core/AudioEngine.cpp
     src/core/MediaLibrary.cpp
     src/services/PlaybackService.cpp
     src/services/PlaylistManager.cpp
-    
+
     # --- UI ---
     src/ui/MainWindow.cpp
-    
+
     # --- Componentes da UI ---
     src/ui/components/SearchBarWidget.cpp
     src/ui/components/TrackDetailsComponent.cpp
     src/ui/components/PlayerControlsWidget.cpp
-    
+
     # --- Abas da UI ---
     src/ui/tabs/BaseTab.cpp
     src/ui/tabs/LibraryTabWidget.cpp
     src/ui/tabs/PlaylistTabWidget.cpp
-    
+
     ${RESOURCES}
 )
 
@@ -52,6 +54,7 @@ target_include_directories(phantom_player PRIVATE
 target_link_libraries(phantom_player PRIVATE
     Qt6::Widgets
     Qt6::Gui
+    Qt6::Core
     SFML::Audio
     ${TAGLIB_LIBRARY_FILE}
 )
