@@ -114,3 +114,21 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
         return false;
     }
 }
+// --- NOVA IMPLEMENTAÇÃO ---
+void PlaylistManager::deletePlaylist(int playlistIndex) {
+    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
+        m_playlists.erase(m_playlists.begin() + playlistIndex);
+        emit playlistsChanged();
+    }
+}
+
+// --- NOVA IMPLEMENTAÇÃO ---
+void PlaylistManager::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
+    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
+        auto& indices = m_playlists[playlistIndex].trackIndices;
+        // O `std::remove` move o elemento para o final e retorna um iterador para ele.
+        // O `erase` então apaga do final. É o "idioma" padrão para remover de um vector em C++.
+        indices.erase(std::remove(indices.begin(), indices.end(), trackIndex), indices.end());
+        emit playlistsChanged();
+    }
+}

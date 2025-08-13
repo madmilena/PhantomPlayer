@@ -13,7 +13,8 @@ public:
 
     void createNewPlaylist(const QString& name);
     void addTrackToPlaylist(int playlistIndex, int trackIndex);
-    void deletePlaylist(int playlistIndex);
+    void deletePlaylist(int playlistIndex); // <-- NOVO
+    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- NOVO
     const std::vector<Playlist>& getPlaylists() const;
 
     bool savePlaylistsToFile(const QString& filePath);
