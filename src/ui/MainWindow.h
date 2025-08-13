@@ -6,7 +6,6 @@
 #include "../services/PlaylistManager.h"
 #include "../core/Track.h"
 
-// Forward declarations
 class QListWidget;
 class QListWidgetItem;
 class QLabel;
@@ -33,6 +32,10 @@ private slots:
     void addTrackToSelectedPlaylist(QAction* action);
     void onPlaylistsChanged();
     void onTabChanged(int index);
+    
+    // SLOTS QUE FALTAVAM
+    void onSavePlaylists();
+    void onLoadPlaylists();
 
 private:
     void setupUI();

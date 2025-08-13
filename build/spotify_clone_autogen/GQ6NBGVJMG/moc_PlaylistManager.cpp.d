@@ -1,5 +1,5 @@
-/Users/milenamadsen/CLionProjects/untitled/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaylistManager.cpp: /Users/milenamadsen/CLionProjects/untitled/src/services/PlaylistManager.h \
-  /Users/milenamadsen/CLionProjects/untitled/build/spotify_clone_autogen/moc_predefs.h \
+/Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaylistManager.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaylistManager.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/moc_predefs.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -725,9 +725,9 @@
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/__stdarg_va_list.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/limits.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/stdarg.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/MediaLibrary.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/Playlist.h \
-  /Users/milenamadsen/CLionProjects/untitled/src/core/Track.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/MediaLibrary.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Playlist.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Track.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QObject \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QString \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q17memory.h \

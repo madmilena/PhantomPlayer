@@ -1,5 +1,5 @@
-/Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
-  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/moc_predefs.h \
+/Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/moc_predefs.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternalLegacy.h \

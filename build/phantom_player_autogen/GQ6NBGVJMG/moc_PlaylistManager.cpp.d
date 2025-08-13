@@ -1,5 +1,5 @@
-/Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
-  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/moc_predefs.h \
+/Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/GQ6NBGVJMG/moc_PlaylistManager.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaylistManager.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/moc_predefs.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -212,22 +212,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__exception/nested_exception.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__exception/operations.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__exception/terminate.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/copy_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/directory_entry.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/directory_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/directory_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/file_status.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/file_time_type.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/file_type.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/filesystem_error.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/operations.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/path.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/path_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/perm_options.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/perms.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/space_info.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__format/buffer.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__format/concepts.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__format/enable_insertable.h \
@@ -273,7 +257,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/bit_reference.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/byte.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/complex.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/deque.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/format.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/fstream.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/functional.h \
@@ -283,9 +266,7 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/memory_resource.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/ostream.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/pair.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/queue.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/sstream.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/stack.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/streambuf.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/string.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__fwd/string_view.h \
@@ -402,7 +383,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__numeric/transform_exclusive_scan.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__numeric/transform_inclusive_scan.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__numeric/transform_reduce.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__ostream/basic_ostream.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__random/is_valid.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__random/log2.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__random/uniform_int_distribution.h \
@@ -481,7 +461,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_base_of.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_bounded_array.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_callable.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_char_like_type.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_class.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_compound.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/__type_traits/is_const.h \
@@ -589,7 +568,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/array \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/atomic \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/bit \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/bitset \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/cassert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/cctype \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/cerrno \
@@ -609,19 +587,14 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/ctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/cwchar \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/cwctype \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/deque \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/exception \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/execution \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/filesystem \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/format \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/forward_list \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/functional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/initializer_list \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/iomanip \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/ios \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/iosfwd \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/istream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/iterator \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/limits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/list \
@@ -634,11 +607,7 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/new \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/numeric \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/optional \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/ostream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/print \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/queue \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/ratio \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stddef.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stdexcept \
@@ -654,7 +623,6 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/type_traits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/typeinfo \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/unordered_map \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/unordered_set \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/utility \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/variant \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/vector \
@@ -757,51 +725,11 @@
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/__stdarg_va_list.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/limits.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/stdarg.h \
-  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/AudioEngine.h \
   /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/MediaLibrary.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Playlist.h \
   /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Track.h \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/AudioResource.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Export.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/InputSoundFile.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Listener.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Music.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/OutputSoundFile.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/PlaybackDevice.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Sound.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundBuffer.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundBufferRecorder.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundChannel.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundFileFactory.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundFileFactory.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundFileReader.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundFileWriter.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundRecorder.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundSource.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/SoundStream.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Config.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Angle.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Angle.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Clock.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Err.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Exception.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Export.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/FileInputStream.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/InputStream.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/MemoryInputStream.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Sleep.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/String.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/String.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Time.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Time.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Utf.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Utf.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector2.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector2.inl \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector3.hpp \
-  /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector3.inl \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QObject \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QString \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q17memory.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q20functional.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q20iterator.h \

@@ -1,5 +1,5 @@
-/Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/GQ6NBGVJMG/moc_PlaybackService.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
-  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/spotify_clone_autogen/moc_predefs.h \
+/Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/YPKJ5OE7LN/moc_MainWindow.cpp: /Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/MainWindow.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/build/phantom_player_autogen/moc_predefs.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/AvailabilityInternalLegacy.h \
@@ -638,6 +638,7 @@
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/queue \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/ratio \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/set \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk/usr/include/c++/v1/stddef.h \
@@ -759,7 +760,10 @@
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/stdarg.h \
   /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/AudioEngine.h \
   /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/MediaLibrary.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Playlist.h \
   /Users/milenamadsen/CLionProjects/PhantomPlayer/src/core/Track.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaybackService.h \
+  /Users/milenamadsen/CLionProjects/PhantomPlayer/src/services/PlaylistManager.h \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio.hpp \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/AudioResource.hpp \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/Audio/Export.hpp \
@@ -802,6 +806,7 @@
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector3.hpp \
   /Users/milenamadsen/libs/SFML-3.0.0-macOS-clang-64-bit/include/SFML/System/Vector3.inl \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QObject \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/QString \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q17memory.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q20functional.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/q20iterator.h \
@@ -833,8 +838,11 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qcontainerfwd.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qcontainerinfo.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qcontainertools_impl.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qcontiguouscache.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qdarwinhelpers.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qdatastream.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qdebug.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qendian.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qexceptionhandling.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qflags.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qfloat16.h \
@@ -844,6 +852,7 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qgenericatomic.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qglobal.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qglobalstatic.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qhash.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qhashfunctions.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qiodevicebase.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qiterable.h \
@@ -853,6 +862,7 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qlist.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qlogging.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qmalloc.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qmap.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qmargins.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qmath.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qmetacontainer.h \
@@ -872,6 +882,11 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qrefcount.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qscopedpointer.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qscopeguard.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qset.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qshareddata.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qshareddata_impl.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qsharedpointer.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qsharedpointer_impl.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qsize.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qspan.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qstdlibdetection.h \
@@ -899,6 +914,7 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtdeprecationdefinitions.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtdeprecationmarkers.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtenvironmentvariables.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtextstream.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtformat_impl.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtmetamacros.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtnoop.h \
@@ -911,14 +927,28 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtypeinfo.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qtypes.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qutf8stringview.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qvariant.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qvarlengtharray.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qversiontagging.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qxptype_traits.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtCore.framework/Versions/A/Headers/qyieldcpu.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/QImage \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qaction.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qbitmap.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qbrush.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qcolor.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qcursor.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qfont.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qfontinfo.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qfontmetrics.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qfontvariableaxis.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qicon.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qimage.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qkeysequence.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qpaintdevice.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qpalette.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qpixelformat.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qpixmap.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qpolygon.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qregion.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qrgb.h \
@@ -927,4 +957,12 @@
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qtguiexports.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qtguiglobal.h \
   /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qtransform.h \
-  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qwindowdefs.h
+  /usr/local/Cellar/qt/6.9.1/lib/QtGui.framework/Versions/A/Headers/qwindowdefs.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/QMainWindow \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qmainwindow.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qsizepolicy.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qtabwidget.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgets-config.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgetsexports.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgetsglobal.h \
+  /usr/local/Cellar/qt/6.9.1/lib/QtWidgets.framework/Versions/A/Headers/qwidget.h

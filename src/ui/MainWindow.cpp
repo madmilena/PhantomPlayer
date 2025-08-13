@@ -33,10 +33,8 @@ MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playli
     
     setWindowTitle("Phantom Player");
     resize(1000, 600);
-
     setupUI();
-    
-    updateTrackList(m_playbackService->getTracks());
+    updateLibraryTab(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
 }
 
@@ -60,6 +58,17 @@ void MainWindow::createWidgets() {
 }
 
 void MainWindow::setupLayouts() {
+    // Barra de Menu
+    QMenuBar* menuBar = this->menuBar();
+    QMenu* fileMenu = menuBar->addMenu("Arquivo");
+    QAction* saveAction = new QAction("Salvar Playlists...", this);
+    QAction* loadAction = new QAction("Carregar Playlists...", this);
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(loadAction);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
+    connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
+    
+    // Layout principal
     auto* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto* mainLayout = new QHBoxLayout(centralWidget);
@@ -139,7 +148,6 @@ void MainWindow::connectListWidget(QListWidget* listWidget) {
         listWidget->setContextMenuPolicy(Qt::NoContextMenu);
     }
 }
-
 
 void MainWindow::updateLibraryTab(const std::vector<Track>& tracks) {
     QListWidget* libraryList = qobject_cast<QListWidget*>(m_tabWidget->widget(0));
@@ -293,5 +301,19 @@ void MainWindow::onTabChanged(int index) {
         m_searchBar->clear();
     } else {
         onSearchQueryChanged("");
+    }
+}
+
+void MainWindow::onSavePlaylists() {
+    QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)");
+    if (!filePath.isEmpty()) {
+        m_playlistManager->savePlaylistsToFile(filePath);
+    }
+}
+
+void MainWindow::onLoadPlaylists() {
+    QString filePath = QFileDialog::getOpenFileName(this, "Carregar Playlists", QDir::homePath(), "JSON Files (*.json)");
+    if (!filePath.isEmpty()) {
+        m_playlistManager->loadPlaylistsFromFile(filePath);
     }
 }
