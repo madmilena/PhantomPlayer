@@ -588,6 +588,12 @@
 			null
 		],
 		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/BaseTab.h",
+			"MU",
+			"ZNZKBAHNGB/moc_BaseTab.cpp",
+			null
+		],
+		[
 			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/LibraryTabWidget.h",
 			"MU",
 			"ZNZKBAHNGB/moc_LibraryTabWidget.cpp",
@@ -708,6 +714,11 @@
 		],
 		[
 			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/TrackDetailsComponent.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/BaseTab.cpp",
 			"MU",
 			null
 		],

@@ -5,5 +5,6 @@
 #include "DFYB2GAN4A/moc_PlayerControlsWidget.cpp"
 #include "DFYB2GAN4A/moc_SearchBarWidget.cpp"
 #include "DFYB2GAN4A/moc_TrackDetailsComponent.cpp"
+#include "ZNZKBAHNGB/moc_BaseTab.cpp"
 #include "ZNZKBAHNGB/moc_LibraryTabWidget.cpp"
 #include "ZNZKBAHNGB/moc_PlaylistTabWidget.cpp"

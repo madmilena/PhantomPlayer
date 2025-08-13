@@ -1,6 +1,5 @@
 #include "PlaylistTabWidget.h"
 #include "BaseTab.h"
-#include <QListWidget>
 
 PlaylistTabWidget::PlaylistTabWidget(QWidget *parent) : QTabWidget(parent) {
     setTabsClosable(true);
@@ -24,14 +23,6 @@ void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, 
             connect(playlistTab, &BaseTab::trackDoubleClicked, this, &PlaylistTabWidget::trackDoubleClicked);
         }
         
-        std::vector<int> trackIndicesInPlaylist = playlists[i].trackIndices;
-        playlistTab->updateTrackList(trackIndicesInPlaylist, allTracks);
-    }
-}
-
-void PlaylistTabWidget::onItemDoubleClicked(QListWidgetItem* item) {
-    if (item) {
-        int trackIndex = item->data(Qt::UserRole).toInt();
-        emit trackDoubleClicked(trackIndex);
+        playlistTab->updateTrackList(playlists[i].trackIndices, allTracks);
     }
 }

@@ -5,7 +5,6 @@
 #include <vector>
 #include "core/Track.h"
 
-class QListWidgetItem;
 class QMenu;
 
 class LibraryTabWidget : public BaseTab {

@@ -6,7 +6,7 @@
 #include "core/Playlist.h"
 #include "core/Track.h"
 
-class QListWidgetItem;
+class BaseTab;
 
 class PlaylistTabWidget : public QTabWidget {
     Q_OBJECT
@@ -18,9 +18,6 @@ public:
 signals:
     void trackDoubleClicked(int trackIndex);
     void playlistClosed(int index);
-
-private slots:
-    void onItemDoubleClicked(QListWidgetItem* item);
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTTABWIDGET_H

@@ -24,7 +24,7 @@ MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playli
     
     m_libraryTab->updateTrackList(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
-    onPlaylistsChanged(); // Carrega as playlists iniciais
+    onPlaylistsChanged();
 }
 
 MainWindow::~MainWindow() = default;

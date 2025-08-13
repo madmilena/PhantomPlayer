@@ -1,8 +1,8 @@
 #include "LibraryTabWidget.h"
 #include <QListWidget>
 #include <QMenu>
-#include <QVBoxLayout>
 #include <QVariant>
+#include <numeric>
 
 LibraryTabWidget::LibraryTabWidget(QWidget *parent) : BaseTab(parent) {
     m_listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -10,17 +10,9 @@ LibraryTabWidget::LibraryTabWidget(QWidget *parent) : BaseTab(parent) {
 }
 
 void LibraryTabWidget::updateTrackList(const std::vector<Track>& tracks) {
-    m_listWidget->clear();
-    for (int i = 0; i < tracks.size(); ++i) {
-        const auto& track = tracks[i];
-        QString durationStr = formatDuration(track.durationInSeconds);
-        QString displayText = QString::fromStdString(track.artist + " - " + track.title + "\t" + durationStr.toStdString());
-        if (track.artist.empty() || track.title.empty()) {
-             displayText = QString::fromStdString(fs::path(track.filePath).stem().string() + "\t" + durationStr.toStdString());
-        }
-        auto* item = new QListWidgetItem(displayText, m_listWidget);
-        item->setData(Qt::UserRole, QVariant::fromValue(i));
-    }
+    std::vector<int> indices(tracks.size());
+    std::iota(indices.begin(), indices.end(), 0); // Cria uma lista de 0, 1, 2, ...
+    BaseTab::updateTrackList(indices, tracks);
 }
 
 void LibraryTabWidget::showContextMenu(const QPoint& pos) {

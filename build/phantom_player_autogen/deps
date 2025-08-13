@@ -782,6 +782,8 @@ phantom_player_autogen/timestamp: \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/SearchBarWidget.h \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/TrackDetailsComponent.cpp \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/TrackDetailsComponent.h \
+	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/BaseTab.cpp \
+	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/BaseTab.h \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/LibraryTabWidget.cpp \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/LibraryTabWidget.h \
 	/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/PlaylistTabWidget.cpp \
