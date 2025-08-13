@@ -2,19 +2,17 @@
 #define SPOTIFYCLONE_MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QListWidgetItem>
-#include <QMenu>
-#include <vector>
-#include <QString>
 #include "../services/PlaybackService.h"
 #include "../services/PlaylistManager.h"
 #include "../core/Track.h"
 
-class QTabWidget;
-class QLineEdit;
-class QLabel;
 class QListWidget;
+class QListWidgetItem;
+class QLabel;
 class PlayerControlsWidget;
+class QLineEdit;
+class QTabWidget;
+class QMenu;
 class QAction;
 
 class MainWindow : public QMainWindow {
@@ -34,10 +32,17 @@ private slots:
     void addTrackToSelectedPlaylist(QAction* action);
     void onPlaylistsChanged();
     void onTabChanged(int index);
+    
+    // SLOTS QUE FALTAVAM
+    void onSavePlaylists();
+    void onLoadPlaylists();
 
 private:
     void setupUI();
+    void createWidgets();
+    void setupLayouts();
     void setupConnections();
+    void connectListWidget(QListWidget* listWidget);
     void updateLibraryTab(const std::vector<Track>& tracks);
     QString formatDuration(int totalSeconds);
 
