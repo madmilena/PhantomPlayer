@@ -1,118 +1,112 @@
 #include "PlaylistManager.h"
-#include <fstream>
-#include <iostream>
-#include "nlohmann/json.hpp"
-#include <algorithm> // Necessário para std::remove
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QDebug>
+#include <unordered_map>
 
-using json = nlohmann::json;
-
-PlaylistManager::PlaylistManager(MediaLibrary* mediaLibrary, QObject* parent)
-    : QObject(parent), m_mediaLibrary(mediaLibrary) {
-}
+PlaylistManager::PlaylistManager(QObject *parent) : QObject(parent) {}
 
 void PlaylistManager::createNewPlaylist(const QString& name) {
-    if (!name.isEmpty()) {
-        m_playlists.emplace_back(Playlist{name, {}});
+    if (name.isEmpty()) return;
+
+    // --- CORREÇÃO ---
+    // Chama o construtor de Playlist que espera apenas um nome.
+    m_playlists.emplace_back(name.toStdString());
+
+    qDebug() << "Playlist criada:" << name << ", emitindo sinal de mudança.";
+    emit playlistsChanged();
+}
+
+void PlaylistManager::addTrackToPlaylist(const int playlistIndex, const int trackId) {
+    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
+        // --- CORREÇÃO ---
+        // Usa o método público addTrack para modificar a lista de faixas.
+        m_playlists[playlistIndex].addTrack(trackId);
         emit playlistsChanged();
     }
 }
 
-void PlaylistManager::addTrackToPlaylist(int playlistIndex, int trackIndex) {
-    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
-        auto& indices = m_playlists[playlistIndex].trackIndices;
-        if (std::find(indices.begin(), indices.end(), trackIndex) == indices.end()) {
-            indices.push_back(trackIndex);
-            emit playlistsChanged();
-        }
-    }
-}
-
-void PlaylistManager::deletePlaylist(int playlistIndex) {
+void PlaylistManager::deletePlaylist(const int playlistIndex) {
     if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
         m_playlists.erase(m_playlists.begin() + playlistIndex);
         emit playlistsChanged();
     }
 }
 
-void PlaylistManager::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
+void PlaylistManager::removeTrackFromPlaylist(const int playlistIndex, const int trackIndex) {
     if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
-        auto& indices = m_playlists[playlistIndex].trackIndices;
-        indices.erase(std::remove(indices.begin(), indices.end(), trackIndex), indices.end());
+        // --- CORREÇÃO ---
+        // Usa o método público removeTrack.
+        m_playlists[playlistIndex].removeTrack(trackIndex);
         emit playlistsChanged();
     }
 }
 
+void PlaylistManager::savePlaylistsToFile(const QString& filePath) {
+    QJsonArray playlistsArray;
+    for (const auto& playlist : m_playlists) {
+        QJsonObject playlistObject;
+        // --- CORREÇÃO ---
+        // Usa o getter getName() para ler o nome da playlist.
+        playlistObject["name"] = QString::fromStdString(playlist.getName());
+
+        QJsonArray trackIdsArray;
+        // --- CORREÇÃO ---
+        // Usa o getter getTrackIds() para ler os IDs das faixas.
+        for (int trackId : playlist.getTrackIds()) {
+            trackIdsArray.append(trackId);
+        }
+        playlistObject["tracks"] = trackIdsArray;
+        playlistsArray.append(playlistObject);
+    }
+
+    QJsonDocument doc(playlistsArray);
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(doc.toJson());
+        file.close();
+    } else {
+        qDebug() << "Não foi possível salvar o arquivo de playlists:" << file.errorString();
+    }
+}
+
+void PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Não foi possível abrir o arquivo de playlists:" << file.errorString();
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    file.close();
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonArray playlistsArray = doc.array();
+
+    m_playlists.clear();
+
+    for (const QJsonValue& value : playlistsArray) {
+        QJsonObject playlistObject = value.toObject();
+        QString name = playlistObject.value("name").toString("Nova Playlist");
+
+        // --- CORREÇÃO ---
+        // Cria a playlist usando o construtor correto.
+        Playlist newPlaylist(name.toStdString());
+
+        if (playlistObject.contains("tracks") && playlistObject["tracks"].isArray()) {
+            QJsonArray tracksArray = playlistObject["tracks"].toArray();
+            for (const QJsonValue& trackValue : tracksArray) {
+                // Adiciona as faixas usando o método público.
+                newPlaylist.addTrack(trackValue.toInt());
+            }
+        }
+        m_playlists.push_back(newPlaylist);
+    }
+
+    emit playlistsChanged();
+}
 
 const std::vector<Playlist>& PlaylistManager::getPlaylists() const {
     return m_playlists;
-}
-
-bool PlaylistManager::savePlaylistsToFile(const QString& filePath) const
-{
-    json j = json::array();
-    const auto& allTracks = m_mediaLibrary->getTracks();
-
-    for (const auto& playlist : m_playlists) {
-        json playlistObject;
-        playlistObject["name"] = playlist.name.toStdString();
-
-        json trackPaths = json::array();
-        for (int trackIndex : playlist.trackIndices) {
-            if (trackIndex >= 0 && trackIndex < allTracks.size()) {
-                trackPaths.push_back(allTracks[trackIndex].filePath);
-            }
-        }
-        playlistObject["tracks"] = trackPaths;
-        j.push_back(playlistObject);
-    }
-
-    std::ofstream file(filePath.toStdString());
-    if (file.is_open()) {
-        file << j.dump(4);
-        return true;
-    }
-
-    std::cerr << "Erro: Nao foi possivel abrir o arquivo para escrita: " << filePath.toStdString() << std::endl;
-    return false;
-}
-
-bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
-    std::ifstream file(filePath.toStdString());
-    if (!file.is_open()) {
-        std::cerr << "Erro: Nao foi possivel abrir o arquivo para leitura: " << filePath.toStdString() << std::endl;
-        return false;
-    }
-
-    try {
-        json j = json::parse(file);
-
-        m_playlists.clear();
-        const auto& allTracks = m_mediaLibrary->getTracks();
-        std::map<std::string, int> trackPathToIndex;
-        for (int i = 0; i < allTracks.size(); ++i) {
-            trackPathToIndex[allTracks[i].filePath] = i;
-        }
-
-        for (const auto& playlistObject : j) {
-            Playlist newPlaylist;
-            newPlaylist.name = QString::fromStdString(playlistObject.value("name", ""));
-
-            if (playlistObject.contains("tracks") && playlistObject["tracks"].is_array()) {
-                for (const auto& trackPath : playlistObject["tracks"]) {
-                    std::string pathStr = trackPath.get<std::string>();
-                    if (trackPathToIndex.count(pathStr)) {
-                        newPlaylist.trackIndices.push_back(trackPathToIndex[pathStr]);
-                    }
-                }
-            }
-            m_playlists.push_back(newPlaylist);
-        }
-
-        emit playlistsChanged();
-        return true;
-
-    } catch (const json::parse_error& e) {
-        std::cerr << "Erro ao decodificar o arquivo de playlists JSON: " << e.what() << std::endl;
-        return false;
-    }
 }

@@ -41,6 +41,7 @@ add_executable(phantom_player
         src/ui/components/PlayerControlsComponent.cpp
         src/services/SearchService.h
         src/services/SearchService.cpp
+        src/core/Playlist.cpp
 )
 
 # Diretórios de inclusão
