@@ -16,7 +16,7 @@ public slots:
     void updateDetails(const Track& track);
 
 private:
-    void setupUI();
+    void setupUI(); // <-- Declaração adicionada
 
     QLabel* m_albumArtLabel;
     QLabel* m_titleLabel;

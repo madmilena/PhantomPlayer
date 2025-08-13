@@ -1,9 +1,10 @@
-#ifndef PHANTOMPLAYER_PLAYERCONTROLSWIDGET_H
-#define PHANTOMPLAYER_PLAYERCONTROLSWIDGET_H
+#ifndef SPOTIFYCLONE_PLAYERCONTROLSWIDGET_H
+#define SPOTIFYCLONE_PLAYERCONTROLSWIDGET_H // <-- CORRIGIDO AQUI
 
 #include <QWidget>
-#include "services/PlaybackService.h"
+#include "../services/PlaybackService.h"
 
+// Forward declarations
 class QPushButton;
 class QSlider;
 class QLabel;
@@ -31,7 +32,7 @@ signals:
     void seeked(int position);
 
 private:
-    RepeatMode m_repeatMode;
+    RepeatMode m_repeatMode; // O widget precisa saber o modo atual para o próximo clique
     QPushButton* m_shuffleButton;
     QPushButton* m_prevButton;
     QPushButton* m_playPauseButton;
@@ -42,4 +43,4 @@ private:
     QSlider* m_volumeSlider;
 };
 
-#endif //PHANTOMPLAYER_PLAYERCONTROLSWIDGET_H
+#endif //SPOTIFYCLONE_PLAYERCONTROLSWIDGET_H

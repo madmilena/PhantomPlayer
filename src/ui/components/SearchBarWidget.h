@@ -17,7 +17,7 @@ signals:
     void searchQueryChanged(const QString& text);
 
 private:
-    QLineEdit* m_searchBar;
+    QLineEdit* m_searchBar; // <-- Nome correto é m_searchBar
 };
 
 #endif //PHANTOMPLAYER_SEARCHBARWIDGET_H
