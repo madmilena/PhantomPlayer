@@ -38,6 +38,8 @@ add_executable(phantom_player
         src/ui/components/PlayerInfoWidget.cpp
         src/ui/components/PlayerControlsComponent.h
         src/ui/components/PlayerControlsComponent.cpp
+        src/services/SearchService.h
+        src/services/SearchService.cpp
 )
 
 target_include_directories(phantom_player PRIVATE

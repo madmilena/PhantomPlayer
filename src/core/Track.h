@@ -10,6 +10,7 @@ struct Track {
     std::string album;
     std::string filePath;
     int durationInSeconds;
+    int trackId;
     QImage albumArt;
 };
 

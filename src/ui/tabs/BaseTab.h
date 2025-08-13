@@ -17,15 +17,17 @@ class BaseTab : public QWidget {
 
 public:
     explicit BaseTab(QWidget* parent = nullptr);
-    void updateTrackList(const std::vector<int>& trackIndices, const std::vector<Track>& allTracks) const;
-    QListWidget* getListWidget() const { return m_listWidget; }
-
-signals:
-    void trackDoubleClicked(int trackIndex);
+    // Este método é ótimo para mostrar as faixas locais
+    void updateTrackList(const std::vector<Track>& allTracks);
 
 protected slots:
+    // Permite que classes filhas reimplementem a lógica de busca
+    virtual void onSearchQueryChanged(const QString& text);
     void onItemDoubleClicked(const QListWidgetItem* item);
-    void onSearchQueryChanged(const QString& text) const;
+
+    signals:
+        // O sinal deve emitir o ID da faixa, não o índice da lista
+        void trackDoubleClicked(int trackId);
 
 protected:
     static QString formatDuration(int totalSeconds);

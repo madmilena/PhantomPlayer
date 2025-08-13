@@ -2,22 +2,21 @@
 #define PHANTOMPLAYER_PLAYLISTCOMPONENT_H
 
 #include <QWidget>
-#include <QListWidgetItem>
 #include <vector>
 #include "core/Track.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class PlaylistComponent; }
-QT_END_NAMESPACE
+// Forward declarations para compilação mais rápida
+class QListWidget;
+class QListWidgetItem;
 
 class PlaylistComponent final : public QWidget {
     Q_OBJECT
 
     public:
     explicit PlaylistComponent(int playlistId, QWidget *parent = nullptr);
-    ~PlaylistComponent() override;
+    ~PlaylistComponent() override = default; // Usar default é uma boa prática
 
-    void updateTracks(const std::vector<Track>& tracks);
+    void updateTracks(const std::vector<int>& trackIds, const std::vector<Track>& allTracks);
 
     signals:
         void trackDoubleClicked(QListWidgetItem *item);
@@ -27,12 +26,12 @@ private slots:
     void onCustomContextMenuRequested(const QPoint &pos);
     void onItemDoubleClicked(QListWidgetItem *item);
 
-    // --- NOVO SLOT DECLARADO AQUI ---
-    void onRemoveTrackRequested();
+    // --- O NOVO SLOT PARA A AÇÃO DE REMOVER ---
+    void onRemoveTrackTriggered();
 
 private:
-    Ui::PlaylistComponent *ui{};
     const int m_playlistId;
+    QListWidget* m_trackList;
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTCOMPONENT_H

@@ -2,28 +2,31 @@
 #define PHANTOMPLAYER_LIBRARYTABWIDGET_H
 
 #include "BaseTab.h"
-#include <vector>
-#include "core/Track.h"
+#include "services/SearchService.h" // Incluindo nosso novo serviço
 
-class QMenu;
+class QTimer;
 
 class LibraryTabWidget : public BaseTab {
     Q_OBJECT
 
 public:
     explicit LibraryTabWidget(QWidget* parent = nullptr);
-    void updateTrackList(const std::vector<Track>& tracks);
-    void clearSearch();
-
-signals:
-    void addToPlaylistRequested(int trackIndex);
+    ~LibraryTabWidget() override;
 
 private slots:
-    void showContextMenu(const QPoint& pos);
-    void onAddToPlaylist();
+    // Sobrescreve o comportamento da BaseTab
+    void onSearchQueryChanged(const QString& text) override;
+
+    // Slots específicos para a busca online
+    void triggerSearch();
+    void onSearchResultsReceived(const std::vector<SearchResult>& results);
+    void onSearchFailed(const QString& errorString);
 
 private:
-    QMenu* m_contextMenu;
+    void setupConnections();
+
+    SearchService* m_searchService;
+    QTimer* m_searchTimer;
 };
 
 #endif //PHANTOMPLAYER_LIBRARYTABWIDGET_H

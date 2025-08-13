@@ -1,50 +1,59 @@
 #include "PlaylistComponent.h"
+#include <QVBoxLayout>
+#include <QListWidget>
 #include <QMenu>
-#include <QDebug> // Inclua para usar qDebug
+#include <QDebug>
+#include <algorithm> // Necessário para std::find_if
 
 PlaylistComponent::PlaylistComponent(int playlistId, QWidget *parent)
-    : QWidget(parent), ui(new Ui::PlaylistComponent), m_playlistId(playlistId)
+    : QWidget(parent), m_playlistId(playlistId)
 {
-    ui->setupUi(this);
-    ui->trackList->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->trackList, &QListWidget::customContextMenuRequested, this, &PlaylistComponent::onCustomContextMenuRequested);
-    connect(ui->trackList, &QListWidget::itemDoubleClicked, this, &PlaylistComponent::onItemDoubleClicked);
+    auto* layout = new QVBoxLayout(this);
+    m_trackList = new QListWidget(this);
+    layout->addWidget(m_trackList);
+    layout->setContentsMargins(0, 0, 0, 0);
+    setLayout(layout);
+
+    m_trackList->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_trackList, &QListWidget::customContextMenuRequested, this, &PlaylistComponent::onCustomContextMenuRequested);
+    connect(m_trackList, &QListWidget::itemDoubleClicked, this, &PlaylistComponent::onItemDoubleClicked);
 }
 
-PlaylistComponent::~PlaylistComponent() {
-    delete ui;
-}
+void PlaylistComponent::updateTracks(const std::vector<int>& trackIds, const std::vector<Track>& allTracks) {
+    m_trackList->clear();
+    for (const int currentTrackId : trackIds) {
+        // --- CORREÇÃO FINAL AQUI ---
+        // Usando o nome correto da variável: .trackId
+        if (auto it = std::find_if(allTracks.begin(), allTracks.end(), [currentTrackId](const Track& t){ return t.trackId == currentTrackId; }); it != allTracks.end()) {
+            const Track& track = *it;
 
-void PlaylistComponent::updateTracks(const std::vector<Track>& tracks) {
-    ui->trackList->clear();
-    for (const auto& track : tracks) {
-        auto* item = new QListWidgetItem(QString::fromStdString(track.getTitle()));
-        item->setData(Qt::UserRole, track.getId());
-        ui->trackList->addItem(item);
+            // Usando o nome correto da variável: .title
+            auto* item = new QListWidgetItem(QString::fromStdString(track.title));
+
+            // Usando o nome correto da variável: .trackId
+            item->setData(Qt::UserRole, track.trackId);
+            m_trackList->addItem(item);
+        }
     }
 }
 
 void PlaylistComponent::onCustomContextMenuRequested(const QPoint &pos) {
-    // Garantir que um item esteja selecionado antes de mostrar o menu
-    if (ui->trackList->itemAt(pos) == nullptr) {
+    if (m_trackList->itemAt(pos) == nullptr) {
         return;
     }
 
     QMenu contextMenu(this);
-    QAction* removeAction = contextMenu.addAction("Remover da Playlist"); // Criamos a ação
+    QAction* removeAction = contextMenu.addAction("Remover da Playlist");
 
-    // --- A LINHA QUE FALTAVA ESTÁ AQUI ---
-    // Conecta o clique na ação "removeAction" ao nosso novo slot.
-    connect(removeAction, &QAction::triggered, this, &PlaylistComponent::onRemoveTrackRequested);
+    connect(removeAction, &QAction::triggered, this, &PlaylistComponent::onRemoveTrackTriggered);
 
-    contextMenu.exec(ui->trackList->mapToGlobal(pos));
+    contextMenu.exec(m_trackList->mapToGlobal(pos));
 }
 
-// --- IMPLEMENTAÇÃO DO NOVO SLOT ---
-void PlaylistComponent::onRemoveTrackRequested() {
-    QListWidgetItem* currentItem = ui->trackList->currentItem();
+void PlaylistComponent::onRemoveTrackTriggered() {
+    QListWidgetItem* currentItem = m_trackList->currentItem();
     if (currentItem) {
-        const int trackIndex = ui->trackList->row(currentItem);
+        const int trackIndex = m_trackList->row(currentItem);
         qDebug() << "[PASSO 1 - PlaylistComponent] Ação 'Remover' foi clicada! Emitindo sinal para remover a faixa no índice:" << trackIndex;
         emit removeTrackRequested(trackIndex);
     }
