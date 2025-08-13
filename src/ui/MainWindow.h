@@ -11,7 +11,7 @@ class TrackDetailsComponent;
 class LibraryTabWidget;
 class PlaylistTabWidget;
 class QTabWidget;
-class QListWidgetItem; // A declaração antecipada pode continuar aqui
+class QListWidgetItem;
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT
@@ -21,25 +21,35 @@ public:
     ~MainWindow() override;
 
 private slots:
+    // Slots que reagem a eventos dos serviços
     void onTrackChanged(const Track& track) const;
-    void createNewPlaylist();
     void onPlaylistsChanged() const;
+
+    // Slots que reagem a eventos da UI
+    void createNewPlaylist();
+    void addTrackToPlaylist(int trackIndex) const;
     void deletePlaylist(int index) const;
+    void removeTrackFromPlaylist(int playlistId, int trackIndex);
+    void playTrackFromPlaylist(QListWidgetItem *item);
     void onSavePlaylists();
     void onLoadPlaylists();
     void onTabChanged(int index);
-    void addTrackToPlaylist(int trackIndex) const;
-
-    // **** DECLARAÇÕES ADICIONADAS DE VOLTA ****
-    void removeTrackFromPlaylist(int playlistId, int trackIndex);
-    void playTrackFromPlaylist(QListWidgetItem *item);
 
 private:
+    // --- Funções de Configuração Refatoradas ---
     void setupUI();
     void createWidgets();
     void setupLayouts();
-    void setupConnections();
 
+    // Função principal de conexões, agora mais limpa
+    void setupConnections();
+    // Funções auxiliares para organizar as conexões
+    void setupPlaybackConnections();
+    void setupPlaylistConnections();
+    void setupGeneralUIConnections();
+
+
+    // Ponteiros para serviços e componentes da UI
     PlaybackService* m_playbackService;
     PlaylistManager* m_playlistManager;
 

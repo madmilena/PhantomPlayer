@@ -10,6 +10,8 @@
 #include <QPushButton>
 #include <iostream>
 #include <QListWidgetItem>
+#include <QDebug>
+
 
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
     : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager),
@@ -18,8 +20,9 @@ MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playli
     setWindowTitle("Phantom Player");
     resize(1000, 600);
     setupUI();
-    setupConnections();
+    setupConnections(); // Esta chamada permanece a mesma
 
+    // Lógica inicial
     m_libraryTab->updateTrackList(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
     onPlaylistsChanged();
@@ -41,13 +44,14 @@ void MainWindow::createWidgets() {
 }
 
 void MainWindow::setupLayouts() {
+    // A implementação de setupLayouts continua a mesma...
     QMenuBar* menuBar = this->menuBar();
     QMenu* fileMenu = menuBar->addMenu("Arquivo");
     const auto saveAction = new QAction("Salvar Playlists...", this);
     const auto loadAction = new QAction("Carregar Playlists...", this);
     fileMenu->addAction(saveAction);
     fileMenu->addAction(loadAction);
-    
+
     auto* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto* mainLayout = new QHBoxLayout(centralWidget);
@@ -55,10 +59,10 @@ void MainWindow::setupLayouts() {
     auto* leftColumnWidget = new QWidget(this);
     auto* leftColumnLayout = new QVBoxLayout(leftColumnWidget);
     auto* newPlaylistButton = new QPushButton("+ Nova Playlist");
-    
+
     m_mainTabs->addTab(m_libraryTab, "Biblioteca");
     m_mainTabs->addTab(m_playlistTabs, "Playlists");
-    
+
     leftColumnLayout->addWidget(m_mainTabs);
     leftColumnLayout->addWidget(newPlaylistButton);
     mainLayout->addWidget(leftColumnWidget, 2);
@@ -70,12 +74,24 @@ void MainWindow::setupLayouts() {
     rightColumnLayout->addWidget(m_playerControls);
     mainLayout->addWidget(rightColumnWidget, 1);
 
+    // As conexões dos botões do menu foram movidas para setupGeneralUIConnections
     connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
 }
 
+
+// --- SEÇÃO DE CONEXÕES REATORADA ---
+
 void MainWindow::setupConnections() {
+    // Agora esta função apenas chama as funções auxiliares, muito mais limpo!
+    setupPlaybackConnections();
+    setupPlaylistConnections();
+    setupGeneralUIConnections();
+}
+
+void MainWindow::setupPlaybackConnections() {
+    // Conexões relacionadas aos controles de playback e ao serviço de áudio
     connect(m_playerControls, &PlayerControlsWidget::playPauseClicked, m_playbackService, &PlaybackService::togglePlayPause);
     connect(m_playerControls, &PlayerControlsWidget::stopClicked, m_playbackService, &PlaybackService::stop);
     connect(m_playerControls, &PlayerControlsWidget::nextClicked, m_playbackService, &PlaybackService::next);
@@ -89,20 +105,34 @@ void MainWindow::setupConnections() {
         m_playbackService->setRepeatMode(nextMode);
         m_playerControls->setRepeatButtonMode(nextMode);
     });
+
+    // Conexões do serviço de playback para a UI
     connect(m_playbackService, &PlaybackService::trackChanged, this, &MainWindow::onTrackChanged);
     connect(m_playbackService, &PlaybackService::playbackStateChanged, m_playerControls, &PlayerControlsWidget::onPlaybackStateChanged);
     connect(m_playbackService, &PlaybackService::progressUpdated, m_playerControls, &PlayerControlsWidget::onProgressUpdated);
     connect(m_playbackService, &PlaybackService::volumeChanged, m_playerControls, &PlayerControlsWidget::onVolumeChanged);
-    connect(m_playlistManager, &PlaylistManager::playlistsChanged, this, &MainWindow::onPlaylistsChanged);
+
+    // Conexões de clique duplo para tocar a música
     connect(m_libraryTab, &LibraryTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_playlistTabs, &PlaylistTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
+}
+
+void MainWindow::setupPlaylistConnections() {
+    // Conexões relacionadas ao gerenciamento de playlists
+    connect(m_playlistManager, &PlaylistManager::playlistsChanged, this, &MainWindow::onPlaylistsChanged);
     connect(m_libraryTab, &LibraryTabWidget::addToPlaylistRequested, this, &MainWindow::addTrackToPlaylist);
     connect(m_playlistTabs, &PlaylistTabWidget::playlistClosed, this, &MainWindow::deletePlaylist);
+}
+
+void MainWindow::setupGeneralUIConnections() {
+    // Conexões gerais da UI que não se encaixam nas outras categorias
     connect(m_mainTabs, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
 }
 
-void MainWindow::onTrackChanged(const Track& track) const
-{
+
+// --- SLOTS (O restante das funções continua igual) ---
+
+void MainWindow::onTrackChanged(const Track& track) const {
     m_trackDetails->updateDetails(track);
 }
 
@@ -113,8 +143,7 @@ void MainWindow::createNewPlaylist() {
     }
 }
 
-void MainWindow::addTrackToPlaylist(const int trackIndex) const
-{
+void MainWindow::addTrackToPlaylist(const int trackIndex) const {
     if (const int playlistIndex = m_playlistTabs->currentIndex(); playlistIndex >= 0) {
         m_playlistManager->addTrackToPlaylist(playlistIndex, trackIndex);
     } else {
@@ -122,13 +151,11 @@ void MainWindow::addTrackToPlaylist(const int trackIndex) const
     }
 }
 
-void MainWindow::deletePlaylist(const int index) const
-{
+void MainWindow::deletePlaylist(const int index) const {
     m_playlistManager->deletePlaylist(index);
 }
 
-void MainWindow::onPlaylistsChanged() const
-{
+void MainWindow::onPlaylistsChanged() const {
     m_playlistTabs->updatePlaylists(m_playlistManager->getPlaylists(), m_playbackService->getTracks());
 }
 
@@ -145,22 +172,33 @@ void MainWindow::onLoadPlaylists() {
 }
 
 void MainWindow::onTabChanged(const int index) {
-    if (index == 1) {
+    if (index == 1) { // 0 = Biblioteca, 1 = Playlists
         m_libraryTab->clearSearch();
     }
 }
 
-// ****** FUNÇÃO QUE FALTAVA FOI ADICIONADA AQUI ******
 void MainWindow::removeTrackFromPlaylist(int playlistId, int trackIndex) {
-    // TODO: Adicionar a lógica para remover a faixa da playlist aqui.
-    // Por exemplo:
-    // PlaybackService::getInstance().removeTrackFromPlaylist(playlistId, trackIndex);
-    qDebug() << "Removendo faixa" << trackIndex << "da playlist" << playlistId;
+    // A lógica é simplesmente chamar o PlaylistManager, que já tem a referência
+    // para a playlist correta e sabe como remover uma faixa pelo seu índice.
+    qDebug() << "MainWindow: Solicitando remoção da faixa" << trackIndex << "da playlist" << playlistId;
+    m_playlistManager->removeTrackFromPlaylist(playlistId, trackIndex);
 }
 
-// Slot ajustado para receber o tipo correto do sinal
 void MainWindow::playTrackFromPlaylist(QListWidgetItem *item) {
-    // TODO: Adicionar a lógica para tocar a faixa aqui.
-    // Você precisará extrair as informações da faixa do QListWidgetItem.
-    qDebug() << "Tocando a faixa:" << item->text();
+    if (!item) {
+        return; // Segurança: não fazer nada se o item for nulo
+    }
+
+    // O método data() recupera os dados que foram associados ao item.
+    // Qt::UserRole é o local padrão para armazenar dados personalizados, como um ID.
+    bool ok;
+    const int trackId = item->data(Qt::UserRole).toInt(&ok);
+
+    if (ok) {
+        // Se a conversão para inteiro funcionou, temos um ID válido.
+        qDebug() << "MainWindow: Tocando a faixa com ID:" << trackId << "da playlist.";
+        m_playbackService->playTrack(trackId);
+    } else {
+        qDebug() << "MainWindow: Erro! Não foi possível extrair um ID de faixa do item da lista.";
+    }
 }
