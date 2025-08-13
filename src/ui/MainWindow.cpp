@@ -76,7 +76,6 @@ void MainWindow::setupLayouts() {
     connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
-    
 }
 
 void MainWindow::setupConnections() {

@@ -16,14 +16,13 @@ public:
     explicit PlaylistTabWidget(QWidget* parent = nullptr);
     void updatePlaylists(const std::vector<Playlist>& playlists, const std::vector<Track>& allTracks);
 
-signals:
-    void trackDoubleClicked(int trackIndex);
+    signals:
+        void trackDoubleClicked(int trackIndex);
     void playlistClosed(int index);
-    void removeTrackRequested(int playlistIndex, int trackIndex); // <-- NOVO
+    void removeTrackFromPlaylist(int playlistIndex, int trackIndex); // <-- SINAL ADICIONADO
 
 private slots:
     void onTrackDoubleClicked(QListWidgetItem* item);
-    void onRemoveTrackRequested(int trackIndex);
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTTABWIDGET_H

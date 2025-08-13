@@ -1,23 +1,13 @@
 #include "PlaylistManager.h"
 #include <fstream>
 #include <iostream>
-#include <QStandardPaths>
-#include <QDir>
-#include "nlohmann/json.hpp" // Inclui a biblioteca de JSON
+#include "nlohmann/json.hpp"
+#include <algorithm> // Necessário para std::remove
 
 using json = nlohmann::json;
 
 PlaylistManager::PlaylistManager(MediaLibrary* mediaLibrary, QObject* parent)
     : QObject(parent), m_mediaLibrary(mediaLibrary) {
-    
-    // Opcional: Se quiser que as playlists carreguem automaticamente ao iniciar
-    // QString dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    // if (!dataPath.isEmpty()) {
-    //     QDir dir(dataPath);
-    //     if (!dir.exists()) dir.mkpath(".");
-    //     QString filePath = dataPath + "/playlists.json";
-    //     loadPlaylistsFromFile(filePath);
-    // }
 }
 
 void PlaylistManager::createNewPlaylist(const QString& name) {
@@ -29,8 +19,11 @@ void PlaylistManager::createNewPlaylist(const QString& name) {
 
 void PlaylistManager::addTrackToPlaylist(int playlistIndex, int trackIndex) {
     if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
-        m_playlists[playlistIndex].trackIndices.push_back(trackIndex);
-        emit playlistsChanged(); // Avisa a UI para redesenhar a aba da playlist
+        auto& indices = m_playlists[playlistIndex].trackIndices;
+        if (std::find(indices.begin(), indices.end(), trackIndex) == indices.end()) {
+            indices.push_back(trackIndex);
+            emit playlistsChanged();
+        }
     }
 }
 
@@ -40,6 +33,15 @@ void PlaylistManager::deletePlaylist(int playlistIndex) {
         emit playlistsChanged();
     }
 }
+
+void PlaylistManager::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
+    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
+        auto& indices = m_playlists[playlistIndex].trackIndices;
+        indices.erase(std::remove(indices.begin(), indices.end(), trackIndex), indices.end());
+        emit playlistsChanged();
+    }
+}
+
 
 const std::vector<Playlist>& PlaylistManager::getPlaylists() const {
     return m_playlists;
@@ -52,7 +54,7 @@ bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
     for (const auto& playlist : m_playlists) {
         json playlistObject;
         playlistObject["name"] = playlist.name.toStdString();
-        
+
         json trackPaths = json::array();
         for (int trackIndex : playlist.trackIndices) {
             if (trackIndex >= 0 && trackIndex < allTracks.size()) {
@@ -68,7 +70,7 @@ bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
         file << j.dump(4);
         return true;
     }
-    
+
     std::cerr << "Erro: Nao foi possivel abrir o arquivo para escrita: " << filePath.toStdString() << std::endl;
     return false;
 }
@@ -93,7 +95,7 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
         for (const auto& playlistObject : j) {
             Playlist newPlaylist;
             newPlaylist.name = QString::fromStdString(playlistObject.value("name", ""));
-            
+
             if (playlistObject.contains("tracks") && playlistObject["tracks"].is_array()) {
                 for (const auto& trackPath : playlistObject["tracks"]) {
                     std::string pathStr = trackPath.get<std::string>();
@@ -102,7 +104,6 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
                     }
                 }
             }
-            // A CORREÇÃO ESTÁ AQUI:
             m_playlists.push_back(newPlaylist);
         }
 
@@ -112,23 +113,5 @@ bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
     } catch (const json::parse_error& e) {
         std::cerr << "Erro ao decodificar o arquivo de playlists JSON: " << e.what() << std::endl;
         return false;
-    }
-}
-// --- NOVA IMPLEMENTAÇÃO ---
-void PlaylistManager::deletePlaylist(int playlistIndex) {
-    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
-        m_playlists.erase(m_playlists.begin() + playlistIndex);
-        emit playlistsChanged();
-    }
-}
-
-// --- NOVA IMPLEMENTAÇÃO ---
-void PlaylistManager::removeTrackFromPlaylist(int playlistIndex, int trackIndex) {
-    if (playlistIndex >= 0 && playlistIndex < m_playlists.size()) {
-        auto& indices = m_playlists[playlistIndex].trackIndices;
-        // O `std::remove` move o elemento para o final e retorna um iterador para ele.
-        // O `erase` então apaga do final. É o "idioma" padrão para remover de um vector em C++.
-        indices.erase(std::remove(indices.begin(), indices.end(), trackIndex), indices.end());
-        emit playlistsChanged();
     }
 }
