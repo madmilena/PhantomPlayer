@@ -1,69 +1,94 @@
 #include "PlayerControlsWidget.h"
+#include <QPushButton>
+#include <QSlider>
+#include <QLabel>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 
-PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent) {
-    setupUI();
-    setupConnections();
-}
+PlayerControlsWidget::PlayerControlsWidget(QWidget *parent) : QWidget(parent), m_repeatMode(RepeatMode::None) {
+    auto* mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0,0,0,0);
+    auto* controlsLayout = new QHBoxLayout();
+    
+    m_progressSlider = new QSlider(Qt::Horizontal, this);
+    m_volumeSlider = new QSlider(Qt::Horizontal, this);
+    m_volumeSlider->setRange(0, 100);
+    m_volumeSlider->setFixedWidth(150);
 
-void PlayerControlsWidget::setupUI() {
+    m_shuffleButton = new QPushButton("S", this);
+    m_shuffleButton->setCheckable(true);
+    m_shuffleButton->setFixedWidth(40);
+
+    m_prevButton = new QPushButton("<<", this);
     m_playPauseButton = new QPushButton("Play", this);
     m_stopButton = new QPushButton("Stop", this);
-    m_nextButton = new QPushButton("Next", this);
-    m_prevButton = new QPushButton("Prev", this);
-    m_shuffleButton = new QPushButton("Shuffle", this);
-    m_repeatButton = new QPushButton("Repeat", this);
-    m_volumeSlider = new QSlider(Qt::Horizontal, this);
-    m_seekSlider = new QSlider(Qt::Horizontal, this);
+    m_nextButton = new QPushButton(">>", this);
 
-    m_volumeSlider->setRange(0, 100);
-    m_volumeSlider->setValue(50);
-    m_seekSlider->setRange(0, 100);
-    m_seekSlider->setValue(0);
+    m_repeatButton = new QPushButton("R", this);
+    m_repeatButton->setFixedWidth(40);
 
-    auto* layout = new QHBoxLayout(this);
-    layout->addWidget(m_prevButton);
-    layout->addWidget(m_playPauseButton);
-    layout->addWidget(m_stopButton);
-    layout->addWidget(m_nextButton);
-    layout->addWidget(m_shuffleButton);
-    layout->addWidget(m_repeatButton);
-    layout->addWidget(m_volumeSlider);
-    layout->addWidget(m_seekSlider);
-}
+    controlsLayout->addWidget(m_shuffleButton);
+    controlsLayout->addWidget(m_prevButton);
+    controlsLayout->addWidget(m_playPauseButton);
+    controlsLayout->addWidget(m_stopButton);
+    controlsLayout->addWidget(m_nextButton);
+    controlsLayout->addWidget(m_repeatButton);
+    
+    auto* volumeLayout = new QHBoxLayout();
+    volumeLayout->addStretch();
+    volumeLayout->addWidget(new QLabel("Vol:", this));
+    volumeLayout->addWidget(m_volumeSlider);
 
-void PlayerControlsWidget::setupConnections() {
-    connect(m_playPauseButton, &QPushButton::clicked, this, [this]() {
-        m_isPlaying = !m_isPlaying;
-        m_playPauseButton->setText(m_isPlaying ? "Pause" : "Play");
-        emit playPauseClicked();
-    });
+    mainLayout->addWidget(m_progressSlider);
+    mainLayout->addLayout(controlsLayout);
+    mainLayout->addLayout(volumeLayout);
 
+    connect(m_playPauseButton, &QPushButton::clicked, this, &PlayerControlsWidget::playPauseClicked);
     connect(m_stopButton, &QPushButton::clicked, this, &PlayerControlsWidget::stopClicked);
     connect(m_nextButton, &QPushButton::clicked, this, &PlayerControlsWidget::nextClicked);
     connect(m_prevButton, &QPushButton::clicked, this, &PlayerControlsWidget::prevClicked);
-    connect(m_shuffleButton, &QPushButton::clicked, this, [this]() {
-        static bool shuffleOn = false;
-        shuffleOn = !shuffleOn;
-        m_shuffleButton->setStyleSheet(shuffleOn ? "background-color: lightgreen" : "");
-        emit shuffleToggled(shuffleOn);
-    });
+    connect(m_shuffleButton, &QPushButton::toggled, this, &PlayerControlsWidget::shuffleToggled);
     connect(m_repeatButton, &QPushButton::clicked, this, &PlayerControlsWidget::repeatClicked);
     connect(m_volumeSlider, &QSlider::valueChanged, this, &PlayerControlsWidget::volumeChanged);
-    connect(m_seekSlider, &QSlider::sliderReleased, this, [this]() {
-        emit seeked(m_seekSlider->value());
-    });
+    connect(m_progressSlider, &QSlider::sliderMoved, this, &PlayerControlsWidget::seeked);
 }
 
-void PlayerControlsWidget::onPlaybackStateChanged(bool isPlaying) {
-    m_isPlaying = isPlaying;
-    m_playPauseButton->setText(isPlaying ? "Pause" : "Play");
+void PlayerControlsWidget::onPlaybackStateChanged(sf::SoundSource::Status status) {
+    if (status == sf::Music::Status::Playing) {
+        m_playPauseButton->setText("Pause");
+    } else {
+        m_playPauseButton->setText("Play");
+    }
 }
 
-void PlayerControlsWidget::onProgressUpdated(int position) {
-    m_seekSlider->setValue(position);
+void PlayerControlsWidget::onProgressUpdated(int currentSeconds, int totalSeconds) {
+    m_progressSlider->blockSignals(true);
+    if(m_progressSlider->maximum() != totalSeconds && totalSeconds > 0) {
+        m_progressSlider->setRange(0, totalSeconds);
+    }
+    m_progressSlider->setValue(currentSeconds);
+    m_progressSlider->blockSignals(false);
 }
 
-void PlayerControlsWidget::onVolumeChanged(int volume) {
-    m_volumeSlider->setValue(volume);
+void PlayerControlsWidget::onVolumeChanged(float volume) {
+    m_volumeSlider->blockSignals(true);
+    m_volumeSlider->setValue(static_cast<int>(volume));
+    m_volumeSlider->blockSignals(false);
+}
+
+void PlayerControlsWidget::setRepeatButtonMode(RepeatMode mode) {
+     m_repeatMode = mode;
+     switch(m_repeatMode) {
+        case RepeatMode::None:
+            m_repeatButton->setText("R");
+            m_repeatButton->setStyleSheet("");
+            break;
+        case RepeatMode::RepeatAll:
+            m_repeatButton->setText("R All");
+            m_repeatButton->setStyleSheet("background-color: #1ED760;");
+            break;
+        case RepeatMode::RepeatOne:
+            m_repeatButton->setText("R 1");
+            break;
+    }
 }

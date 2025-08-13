@@ -12,6 +12,7 @@
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QTabWidget>
+#include <QPushButton>
 #include <iostream>
 
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
@@ -85,6 +86,14 @@ void MainWindow::setupConnections() {
     connect(m_playerControls, &PlayerControlsWidget::shuffleToggled, m_playbackService, &PlaybackService::setShuffle);
     connect(m_playerControls, &PlayerControlsWidget::volumeChanged, this, [this](int value){ m_playbackService->setVolume(static_cast<float>(value)); });
     connect(m_playerControls, &PlayerControlsWidget::seeked, m_playbackService, &PlaybackService::seek);
+    connect(m_playerControls, &PlayerControlsWidget::repeatClicked, this, [this](){
+        // Esta lógica de ciclar o modo permanece na MainWindow, pois é um estado da UI
+        RepeatMode currentMode = m_playbackService->getRepeatMode();
+        RepeatMode nextMode = static_cast<RepeatMode>((static_cast<int>(currentMode) + 1) % 3);
+        m_playbackService->setRepeatMode(nextMode);
+        m_playerControls->setRepeatButtonMode(nextMode);
+    });
+
 
     connect(m_playbackService, &PlaybackService::trackChanged, this, &MainWindow::onTrackChanged);
     connect(m_playbackService, &PlaybackService::playbackStateChanged, m_playerControls, &PlayerControlsWidget::onPlaybackStateChanged);

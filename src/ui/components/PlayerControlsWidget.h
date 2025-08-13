@@ -15,7 +15,6 @@ public:
     explicit PlayerControlsWidget(QWidget *parent = nullptr);
 
 public slots:
-    // CORREÇÃO: O parâmetro agora é do tipo correto
     void onPlaybackStateChanged(sf::SoundSource::Status status);
     void onProgressUpdated(int currentSeconds, int totalSeconds);
     void onVolumeChanged(float volume);

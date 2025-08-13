@@ -12,6 +12,7 @@ void TrackDetailsComponent::setupUI() {
     m_albumArtLabel = new QLabel("Nenhuma música tocando", this);
     m_albumArtLabel->setAlignment(Qt::AlignCenter);
     m_albumArtLabel->setMinimumSize(250, 250);
+    m_albumArtLabel->setStyleSheet("background-color: #282828; border-radius: 5px;");
 
     m_titleLabel = new QLabel("Selecione uma música", this);
     m_titleLabel->setAlignment(Qt::AlignCenter);

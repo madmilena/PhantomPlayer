@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "core/Track.h"
 
-class QLabel; // Forward declaration
+class QLabel;
 
 class TrackDetailsComponent : public QWidget {
     Q_OBJECT

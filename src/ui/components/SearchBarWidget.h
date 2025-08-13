@@ -2,8 +2,9 @@
 #define PHANTOMPLAYER_SEARCHBARWIDGET_H
 
 #include <QWidget>
+#include <QString>
 
-class QLineEdit; // Forward declaration
+class QLineEdit;
 
 class SearchBarWidget : public QWidget {
     Q_OBJECT
