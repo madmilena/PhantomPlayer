@@ -43,60 +43,37 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "",
         "Track",
         "track",
-        "index",
-        "trackDoubleClicked",
-        "QListWidgetItem*",
-        "item",
-        "repeatButtonClicked",
-        "onSearchQueryChanged",
-        "text",
-        "showTrackContextMenu",
-        "pos",
         "createNewPlaylist",
-        "addTrackToSelectedPlaylist",
-        "QAction*",
-        "action",
+        "addTrackToPlaylist",
+        "trackIndex",
         "onPlaylistsChanged",
         "onTabChanged",
+        "index",
         "onSavePlaylists",
         "onLoadPlaylists"
     };
 
     QtMocHelpers::UintData qt_methods {
         // Slot 'onTrackChanged'
-        QtMocHelpers::SlotData<void(const Track &, int)>(1, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 3, 4 }, { QMetaType::Int, 5 },
-        }}),
-        // Slot 'trackDoubleClicked'
-        QtMocHelpers::SlotData<void(QListWidgetItem *)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 7, 8 },
-        }}),
-        // Slot 'repeatButtonClicked'
-        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSearchQueryChanged'
-        QtMocHelpers::SlotData<void(const QString &)>(10, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 11 },
-        }}),
-        // Slot 'showTrackContextMenu'
-        QtMocHelpers::SlotData<void(const QPoint &)>(12, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QPoint, 13 },
+        QtMocHelpers::SlotData<void(const Track &)>(1, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 3, 4 },
         }}),
         // Slot 'createNewPlaylist'
-        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'addTrackToSelectedPlaylist'
-        QtMocHelpers::SlotData<void(QAction *)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 16, 17 },
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'addTrackToPlaylist'
+        QtMocHelpers::SlotData<void(int)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 7 },
         }}),
         // Slot 'onPlaylistsChanged'
-        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onTabChanged'
-        QtMocHelpers::SlotData<void(int)>(19, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 5 },
+        QtMocHelpers::SlotData<void(int)>(9, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 10 },
         }}),
         // Slot 'onSavePlaylists'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'onLoadPlaylists'
-        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -120,30 +97,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->onTrackChanged((*reinterpret_cast< std::add_pointer_t<Track>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
-        case 1: _t->trackDoubleClicked((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1]))); break;
-        case 2: _t->repeatButtonClicked(); break;
-        case 3: _t->onSearchQueryChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 4: _t->showTrackContextMenu((*reinterpret_cast< std::add_pointer_t<QPoint>>(_a[1]))); break;
-        case 5: _t->createNewPlaylist(); break;
-        case 6: _t->addTrackToSelectedPlaylist((*reinterpret_cast< std::add_pointer_t<QAction*>>(_a[1]))); break;
-        case 7: _t->onPlaylistsChanged(); break;
-        case 8: _t->onTabChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 9: _t->onSavePlaylists(); break;
-        case 10: _t->onLoadPlaylists(); break;
+        case 0: _t->onTrackChanged((*reinterpret_cast< std::add_pointer_t<Track>>(_a[1]))); break;
+        case 1: _t->createNewPlaylist(); break;
+        case 2: _t->addTrackToPlaylist((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 3: _t->onPlaylistsChanged(); break;
+        case 4: _t->onTabChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 5: _t->onSavePlaylists(); break;
+        case 6: _t->onLoadPlaylists(); break;
         default: ;
-        }
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        switch (_id) {
-        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 6:
-            switch (*reinterpret_cast<int*>(_a[1])) {
-            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-            case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QAction* >(); break;
-            }
-            break;
         }
     }
 }
@@ -167,14 +128,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 7;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        if (_id < 7)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 7;
     }
     return _id;
 }

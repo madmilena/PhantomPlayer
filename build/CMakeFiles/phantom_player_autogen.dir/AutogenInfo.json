@@ -570,9 +570,33 @@
 			null
 		],
 		[
-			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/PlayerControlsWidget.h",
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/PlayerControlsWidget.h",
 			"MU",
-			"YPKJ5OE7LN/moc_PlayerControlsWidget.cpp",
+			"DFYB2GAN4A/moc_PlayerControlsWidget.cpp",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/SearchBarWidget.h",
+			"MU",
+			"DFYB2GAN4A/moc_SearchBarWidget.cpp",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/TrackDetailsComponent.h",
+			"MU",
+			"DFYB2GAN4A/moc_TrackDetailsComponent.cpp",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/LibraryTabWidget.h",
+			"MU",
+			"ZNZKBAHNGB/moc_LibraryTabWidget.cpp",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/PlaylistTabWidget.h",
+			"MU",
+			"ZNZKBAHNGB/moc_PlaylistTabWidget.cpp",
 			null
 		]
 	],
@@ -673,7 +697,27 @@
 			null
 		],
 		[
-			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/PlayerControlsWidget.cpp",
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/PlayerControlsWidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/SearchBarWidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/components/TrackDetailsComponent.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/LibraryTabWidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/milenamadsen/CLionProjects/PhantomPlayer/src/ui/tabs/PlaylistTabWidget.cpp",
 			"MU",
 			null
 		]

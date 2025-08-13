@@ -20,25 +20,36 @@ find_library(TAGLIB_LIBRARY_FILE NAMES tag)
 qt_add_resources(RESOURCES resources/resources.qrc)
 
 add_executable(phantom_player
-        src/main.cpp
-        src/core/AudioEngine.cpp
-        src/core/MediaLibrary.cpp
-        src/services/PlaybackService.cpp
-        src/services/PlaylistManager.cpp
-        src/ui/MainWindow.cpp
-        src/ui/PlayerControlsWidget.cpp
-        ${RESOURCES}
+    src/main.cpp
+    src/core/AudioEngine.cpp
+    src/core/MediaLibrary.cpp
+    src/services/PlaybackService.cpp
+    src/services/PlaylistManager.cpp
+    
+    # --- UI ---
+    src/ui/MainWindow.cpp
+    
+    # --- Componentes da UI ---
+    src/ui/components/SearchBarWidget.cpp
+    src/ui/components/TrackDetailsComponent.cpp
+    src/ui/components/PlayerControlsWidget.cpp
+    
+    # --- Abas da UI ---
+    src/ui/tabs/LibraryTabWidget.cpp
+    src/ui/tabs/PlaylistTabWidget.cpp
+    
+    ${RESOURCES}
 )
 
 target_include_directories(phantom_player PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_SOURCE_DIR}/third_party # Garante que nlohmann/json.hpp seja encontrado
-        ${TAGLIB_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party # <-- ESTA LINHA É IMPORTANTE
+    ${TAGLIB_INCLUDE_DIRS}
 )
 
 target_link_libraries(phantom_player PRIVATE
-        Qt6::Widgets
-        Qt6::Gui
-        SFML::Audio
-        ${TAGLIB_LIBRARY_FILE}
+    Qt6::Widgets
+    Qt6::Gui
+    SFML::Audio
+    ${TAGLIB_LIBRARY_FILE}
 )

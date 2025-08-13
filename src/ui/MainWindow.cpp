@@ -1,35 +1,28 @@
 #include "MainWindow.h"
-#include "ui/PlayerControlsWidget.h"
-#include <QTabWidget>
-#include <QListWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QVariant>
-#include <filesystem>
-#include <QFont>
-#include <QInputDialog>
-#include <QMenu>
+#include "components/PlayerControlsWidget.h"
+#include "components/TrackDetailsComponent.h"
+#include "tabs/LibraryTabWidget.h"
+#include "tabs/PlaylistTabWidget.h"
 #include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 #include <QFileDialog>
 #include <QDir>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QInputDialog>
+#include <QTabWidget>
 #include <iostream>
-
-#include "../core/AudioEngine.h"
-
-namespace fs = std::filesystem;
 
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
     : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager) {
     
     setWindowTitle("Phantom Player");
     resize(1000, 600);
-
     setupUI();
+    setupConnections();
     
-    updateLibraryTab(m_playbackService->getTracks());
+    m_libraryTab->updateTrackList(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
 }
 
@@ -38,22 +31,17 @@ MainWindow::~MainWindow() = default;
 void MainWindow::setupUI() {
     createWidgets();
     setupLayouts();
-    setupConnections();
 }
 
 void MainWindow::createWidgets() {
-    m_tabWidget = new QTabWidget(this);
-    m_searchBar = new QLineEdit(this);
-    m_albumArtLabel = new QLabel("Nenhuma música tocando", this);
-    m_titleLabel = new QLabel("Selecione uma música", this);
-    m_artistLabel = new QLabel("", this);
+    m_mainTabs = new QTabWidget(this);
+    m_libraryTab = new LibraryTabWidget(this);
+    m_playlistTabs = new PlaylistTabWidget(this);
+    m_trackDetails = new TrackDetailsComponent(this);
     m_playerControls = new PlayerControlsWidget(this);
-    m_trackContextMenu = new QMenu(this);
-    m_addToPlaylistMenu = m_trackContextMenu->addMenu("Adicionar à playlist");
 }
 
 void MainWindow::setupLayouts() {
-    // Barra de Menu
     QMenuBar* menuBar = this->menuBar();
     QMenu* fileMenu = menuBar->addMenu("Arquivo");
     QAction* saveAction = new QAction("Salvar Playlists...", this);
@@ -62,46 +50,29 @@ void MainWindow::setupLayouts() {
     fileMenu->addAction(loadAction);
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
-    
+
     auto* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto* mainLayout = new QHBoxLayout(centralWidget);
 
     auto* leftColumnWidget = new QWidget(this);
     auto* leftColumnLayout = new QVBoxLayout(leftColumnWidget);
-    m_searchBar->setPlaceholderText("Buscar na biblioteca...");
     auto* newPlaylistButton = new QPushButton("+ Nova Playlist");
+    connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
     
-    auto* libraryListWidget = new QListWidget(this);
-    libraryListWidget->setObjectName("Library");
-    m_tabWidget->addTab(libraryListWidget, "Biblioteca");
-
-    leftColumnLayout->addWidget(m_searchBar);
-    leftColumnLayout->addWidget(m_tabWidget);
+    m_mainTabs->addTab(m_libraryTab, "Biblioteca");
+    m_mainTabs->addTab(m_playlistTabs, "Playlists");
+    
+    leftColumnLayout->addWidget(m_mainTabs);
     leftColumnLayout->addWidget(newPlaylistButton);
     mainLayout->addWidget(leftColumnWidget, 2);
 
     auto* rightColumnWidget = new QWidget(this);
     auto* rightColumnLayout = new QVBoxLayout(rightColumnWidget);
-    mainLayout->addWidget(rightColumnWidget, 1);
-    
-    m_albumArtLabel->setAlignment(Qt::AlignCenter);
-    m_albumArtLabel->setMinimumSize(250, 250);
-    rightColumnLayout->addWidget(m_albumArtLabel);
-
-    QFont titleFont = m_titleLabel->font();
-    titleFont.setBold(true);
-    titleFont.setPointSize(14);
-    m_titleLabel->setFont(titleFont);
-    m_titleLabel->setAlignment(Qt::AlignCenter);
-    m_artistLabel->setAlignment(Qt::AlignCenter);
-
-    rightColumnLayout->addWidget(m_titleLabel);
-    rightColumnLayout->addWidget(m_artistLabel);
+    rightColumnLayout->addWidget(m_trackDetails);
     rightColumnLayout->addStretch();
     rightColumnLayout->addWidget(m_playerControls);
-
-    connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
+    mainLayout->addWidget(rightColumnWidget, 1);
 }
 
 void MainWindow::setupConnections() {
@@ -110,7 +81,7 @@ void MainWindow::setupConnections() {
     connect(m_playerControls, &PlayerControlsWidget::nextClicked, m_playbackService, &PlaybackService::next);
     connect(m_playerControls, &PlayerControlsWidget::prevClicked, m_playbackService, &PlaybackService::prev);
     connect(m_playerControls, &PlayerControlsWidget::shuffleToggled, m_playbackService, &PlaybackService::setShuffle);
-    connect(m_playerControls, &PlayerControlsWidget::volumeChanged, this, [this](int value){ m_playbackService->setVolume(static_cast<float>(value)); });
+    connect(m_playerControls, &PlayerControlsWidget::volumeChanged, m_playbackService, [this](int value){ m_playbackService->setVolume(static_cast<float>(value)); });
     connect(m_playerControls, &PlayerControlsWidget::seeked, m_playbackService, &PlaybackService::seek);
     connect(m_playerControls, &PlayerControlsWidget::repeatClicked, this, &MainWindow::repeatButtonClicked);
 
@@ -120,89 +91,38 @@ void MainWindow::setupConnections() {
     connect(m_playbackService, &PlaybackService::volumeChanged, m_playerControls, &PlayerControlsWidget::onVolumeChanged);
     connect(m_playlistManager, &PlaylistManager::playlistsChanged, this, &MainWindow::onPlaylistsChanged);
 
-    connect(m_searchBar, &QLineEdit::textChanged, this, &MainWindow::onSearchQueryChanged);
+    connect(m_libraryTab, &LibraryTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
+    connect(m_playlistTabs, &PlaylistTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
+    connect(m_libraryTab, &LibraryTabWidget::addToPlaylistRequested, this, &MainWindow::addTrackToPlaylist);
     
-    QListWidget* libraryList = qobject_cast<QListWidget*>(m_tabWidget->widget(0));
-    if (libraryList) {
-        connectListWidget(libraryList);
-    }
-
-    connect(m_tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
+    connect(m_mainTabs, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
 }
 
-void MainWindow::connectListWidget(QListWidget* listWidget) {
-    if (!listWidget) return;
-    
-    connect(listWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::trackDoubleClicked);
+void MainWindow::onTrackChanged(const Track& track) {
+    m_trackDetails->updateTrackDetails(track);
+}
 
-    if (listWidget->objectName() == "Library") {
-        listWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(listWidget, &QWidget::customContextMenuRequested, this, &MainWindow::showTrackContextMenu);
+void MainWindow::createNewPlaylist() {
+    bool ok;
+    QString name = QInputDialog::getText(this, "Nova Playlist", "Nome da Playlist:", QLineEdit::Normal, "", &ok);
+    if (ok && !name.isEmpty()) {
+        m_playlistManager->createNewPlaylist(name);
+    }
+}
+
+void MainWindow::addTrackToPlaylist(int trackIndex) {
+    int playlistIndex = m_playlistTabs->currentIndex();
+    if (playlistIndex >= 0) {
+        m_playlistManager->addTrackToPlaylist(playlistIndex, trackIndex);
     } else {
-        listWidget->setContextMenuPolicy(Qt::NoContextMenu);
-    }
-}
-
-// CORREÇÃO: A função agora é um método da classe
-QString MainWindow::formatDuration(int totalSeconds) {
-    int minutes = totalSeconds / 60;
-    int seconds = totalSeconds % 60;
-    return QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-}
-
-void MainWindow::updateLibraryTab(const std::vector<Track>& tracks) {
-    QListWidget* libraryList = qobject_cast<QListWidget*>(m_tabWidget->widget(0));
-    if (!libraryList) return;
-
-    libraryList->clear();
-    for (int i = 0; i < tracks.size(); ++i) {
-        const auto& track = tracks[i];
-        QString durationStr = formatDuration(track.durationInSeconds);
-        QString displayText = QString::fromStdString(track.artist + " - " + track.title + "\t" + durationStr.toStdString());
-        if (track.artist.empty() || track.title.empty()) {
-            displayText = QString::fromStdString(fs::path(track.filePath).stem().string() + "\t" + durationStr.toStdString());
-        }
-        auto* item = new QListWidgetItem(displayText, libraryList);
-        item->setData(Qt::UserRole, QVariant::fromValue(i));
+        std::cout << "Nenhuma playlist selecionada para adicionar a musica." << std::endl;
     }
 }
 
 void MainWindow::onPlaylistsChanged() {
-    const auto& playlists = m_playlistManager->getPlaylists();
-    const auto& allTracks = m_playbackService->getTracks();
-
-    while (m_tabWidget->count() > playlists.size() + 1) {
-        m_tabWidget->removeTab(m_tabWidget->count() - 1);
-    }
-
-    for (int i = 0; i < playlists.size(); ++i) {
-        QListWidget* playlistWidget;
-        int tabIndex = i + 1;
-
-        if (tabIndex < m_tabWidget->count()) {
-            playlistWidget = qobject_cast<QListWidget*>(m_tabWidget->widget(tabIndex));
-            m_tabWidget->setTabText(tabIndex, playlists[i].name);
-        } else {
-            playlistWidget = new QListWidget(this);
-            m_tabWidget->addTab(playlistWidget, playlists[i].name);
-            connectListWidget(playlistWidget);
-        }
-        
-        playlistWidget->clear();
-        for (int trackIndex : playlists[i].trackIndices) {
-            if(trackIndex >= 0 && trackIndex < allTracks.size()){
-                 const auto& track = allTracks[trackIndex];
-                 QString durationStr = formatDuration(track.durationInSeconds);
-                 QString displayText = QString::fromStdString(track.artist + " - " + track.title + "\t" + durationStr.toStdString());
-                 if (track.artist.empty() || track.title.empty()) {
-                     displayText = QString::fromStdString(fs::path(track.filePath).stem().string() + "\t" + durationStr.toStdString());
-                 }
-                 auto* item = new QListWidgetItem(displayText, playlistWidget);
-                 item->setData(Qt::UserRole, QVariant::fromValue(trackIndex));
-            }
-        }
-    }
+    m_playlistTabs->updatePlaylists(m_playlistManager->getPlaylists(), m_playbackService->getTracks());
 }
+
 
 void MainWindow::onTrackChanged(const Track& track, int index) {
     setWindowTitle("Tocando: " + QString::fromStdString(track.title));
@@ -305,6 +225,7 @@ void MainWindow::onTabChanged(int index) {
     }
 }
 
+// --- SLOTS PARA SALVAR E CARREGAR ---
 void MainWindow::onSavePlaylists() {
     QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)");
     if (!filePath.isEmpty()) {
