@@ -7,6 +7,7 @@ using json = nlohmann::json;
 
 PlaylistManager::PlaylistManager(MediaLibrary* mediaLibrary, QObject* parent)
     : QObject(parent), m_mediaLibrary(mediaLibrary) {
+    // O construtor agora está limpo. O carregamento é manual, via menu.
 }
 
 void PlaylistManager::createNewPlaylist(const QString& name) {

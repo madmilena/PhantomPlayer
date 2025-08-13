@@ -17,8 +17,8 @@ BaseTab::BaseTab(QWidget *parent) : QWidget(parent) {
 
     layout->addWidget(m_searchBar);
     layout->addWidget(m_listWidget);
+    layout->setContentsMargins(0,0,0,0);
 
-    // CORREÇÃO: Conecta ao sinal correto que acabamos de adicionar
     connect(m_searchBar, &SearchBarWidget::searchQueryChanged, this, &BaseTab::onSearchQueryChanged);
     connect(m_listWidget, &QListWidget::itemDoubleClicked, this, &BaseTab::onItemDoubleClicked);
 }

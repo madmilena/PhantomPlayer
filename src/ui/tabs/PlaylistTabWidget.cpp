@@ -1,5 +1,6 @@
 #include "PlaylistTabWidget.h"
 #include "BaseTab.h"
+#include <QListWidget>
 
 PlaylistTabWidget::PlaylistTabWidget(QWidget *parent) : QTabWidget(parent) {
     setTabsClosable(true);

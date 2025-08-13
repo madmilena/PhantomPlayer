@@ -1,49 +1,42 @@
 #include "TrackDetailsComponent.h"
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QPixmap>
-#include <QSizePolicy>
+#include <QFont>
 
-TrackDetailsComponent::TrackDetailsComponent(QWidget* parent) : QWidget(parent) {
+TrackDetailsComponent::TrackDetailsComponent(QWidget *parent) : QWidget(parent) {
     setupUI();
 }
 
 void TrackDetailsComponent::setupUI() {
-    m_albumArtLabel = new QLabel(this);
+    auto* layout = new QVBoxLayout(this);
+    m_albumArtLabel = new QLabel("Nenhuma música tocando", this);
     m_albumArtLabel->setAlignment(Qt::AlignCenter);
     m_albumArtLabel->setMinimumSize(250, 250);
-    m_albumArtLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     m_titleLabel = new QLabel("Selecione uma música", this);
+    m_titleLabel->setAlignment(Qt::AlignCenter);
     QFont titleFont = m_titleLabel->font();
     titleFont.setBold(true);
     titleFont.setPointSize(14);
     m_titleLabel->setFont(titleFont);
-    m_titleLabel->setAlignment(Qt::AlignCenter);
 
     m_artistLabel = new QLabel("", this);
     m_artistLabel->setAlignment(Qt::AlignCenter);
 
-    auto* layout = new QVBoxLayout(this);
     layout->addWidget(m_albumArtLabel);
     layout->addWidget(m_titleLabel);
     layout->addWidget(m_artistLabel);
-    layout->addStretch();
 }
 
-void TrackDetailsComponent::setAlbumArt(const QString& imagePath) {
-    QPixmap pixmap(imagePath);
-    if (pixmap.isNull()) {
-        m_albumArtLabel->setText("Nenhuma música tocando");
+void TrackDetailsComponent::updateDetails(const Track& track) {
+    m_titleLabel->setText(QString::fromStdString(track.title));
+    m_artistLabel->setText(QString::fromStdString(track.artist));
+
+    if (!track.albumArt.isNull()) {
+        QPixmap pixmap = QPixmap::fromImage(track.albumArt);
+        m_albumArtLabel->setPixmap(pixmap.scaled(m_albumArtLabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     } else {
-        m_albumArtLabel->setPixmap(pixmap.scaled(250, 250, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        m_albumArtLabel->clear();
+        m_albumArtLabel->setText("Nenhuma capa de álbum");
     }
-}
-
-void TrackDetailsComponent::setTitle(const QString& title) {
-    m_titleLabel->setText(title);
-}
-
-void TrackDetailsComponent::setArtist(const QString& artist) {
-    m_artistLabel->setText(artist);
 }

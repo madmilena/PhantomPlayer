@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "core/Track.h"
 
-class QLabel;
+class QLabel; // Forward declaration
 
 class TrackDetailsComponent : public QWidget {
     Q_OBJECT
@@ -13,9 +13,11 @@ public:
     explicit TrackDetailsComponent(QWidget* parent = nullptr);
 
 public slots:
-    void updateDetails(const Track& track); // <-- NOME CORRIGIDO
+    void updateDetails(const Track& track);
 
 private:
+    void setupUI();
+
     QLabel* m_albumArtLabel;
     QLabel* m_titleLabel;
     QLabel* m_artistLabel;
