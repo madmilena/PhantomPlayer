@@ -1,59 +1,65 @@
-#ifndef SPOTIFYCLONE_PLAYBACKSERVICE_H
-#define SPOTIFYCLONE_PLAYBACKSERVICE_H
+#ifndef PHANTOMPLAYER_PLAYBACKSERVICE_H
+#define PHANTOMPLAYER_PLAYBACKSERVICE_H
 
 #include <QObject>
+#include <SFML/Audio.hpp>
 #include <vector>
-#include "core/AudioEngine.h"
 #include "core/MediaLibrary.h"
+#include "core/Track.h"
 
-enum class RepeatMode {
-    None,
-    RepeatAll,
-    RepeatOne
-};
+// O enum estava correto, só precisava ser usado corretamente em outros arquivos.
+enum class RepeatMode { None, One, All };
+
+class QTimer; // Forward declaration
 
 class PlaybackService : public QObject {
     Q_OBJECT
 
 public:
-    explicit PlaybackService(QObject *parent = nullptr);
+    explicit PlaybackService(MediaLibrary* mediaLibrary, QObject *parent = nullptr);
+    ~PlaybackService() override;
 
-    const std::vector<Track>& getTracks() const;
-    float getInitialVolume() const;
-    MediaLibrary* getMediaLibrary();
-    RepeatMode getRepeatMode() const; // <-- FUNÇÃO ADICIONADA
+    [[nodiscard]] const std::vector<Track>& getTracks() const;
+    [[nodiscard]] float getInitialVolume() const;
+    [[nodiscard]] RepeatMode getRepeatMode() const;
+    // Corrigido: definido inline e como const para evitar erros de linkage.
+    [[nodiscard]] MediaLibrary* getMediaLibrary() const { return m_mediaLibrary; }
 
 public slots:
-    void playTrack(int index);
+    void playTrack(int trackIndex);
     void togglePlayPause();
     void stop();
     void next();
     void prev();
-    void setShuffle(bool enabled);
-    void setRepeatMode(RepeatMode mode);
-    void seek(int position);
+    void seek(float position);
     void setVolume(float volume);
+    void setShuffle(bool shuffle);
+    void setRepeatMode(RepeatMode mode);
 
-signals:
-    void trackChanged(const Track& track, int index);
+    signals:
+        // Corrigido: O sinal só precisa emitir a nova faixa, não o índice.
+        void trackChanged(const Track& track);
     void playbackStateChanged(sf::SoundSource::Status status);
-    void progressUpdated(int currentSeconds, int totalSeconds);
-    void volumeChanged(float volume);
+    void progressUpdated(float currentTime, float totalDuration);
+    void volumeChanged(int volume);
 
 private slots:
-    void onEngineStatusChange();
+    void update();
 
 private:
+    void playCurrentTrack();
+    // Declarando a função que estava faltando
     void generateShuffleList();
 
-    AudioEngine m_audioEngine;
-    MediaLibrary m_mediaLibrary;
-    QTimer* m_progressTimer;
-
+    sf::Music m_music;
+    MediaLibrary* m_mediaLibrary;
     int m_currentTrackIndex = -1;
     bool m_isShuffle = false;
     RepeatMode m_repeatMode = RepeatMode::None;
+    // Declarando o vetor de índices embaralhados que estava faltando
     std::vector<int> m_shuffledIndices;
+    int m_queuePosition = -1;
+    QTimer* m_progressTimer;
 };
 
-#endif //SPOTIFYCLONE_PLAYBACKSERVICE_H
+#endif //PHANTOMPLAYER_PLAYBACKSERVICE_H

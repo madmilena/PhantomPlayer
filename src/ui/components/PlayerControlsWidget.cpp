@@ -80,18 +80,18 @@ void PlayerControlsWidget::onVolumeChanged(const float volume) const
 }
 
 void PlayerControlsWidget::setRepeatButtonMode(RepeatMode mode) {
-     m_repeatMode = mode;
-     switch(m_repeatMode) {
-        case RepeatMode::None:
-            m_repeatButton->setText("R");
-            m_repeatButton->setStyleSheet("");
-            break;
-        case RepeatMode::RepeatAll:
-            m_repeatButton->setText("R All");
-            m_repeatButton->setStyleSheet("background-color: #1ED760;");
-            break;
-        case RepeatMode::RepeatOne:
-            m_repeatButton->setText("R 1");
-            break;
+    switch (mode) {
+    case RepeatMode::None:
+        ui->repeatButton->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+        break;
+        // --- CORREÇÃO AQUI ---
+    case RepeatMode::All:
+        // Supondo que você tenha um ícone específico, senão use um placeholder
+        ui->repeatButton->setIcon(QIcon(":/icons/repeat_all.png")); // Exemplo
+        break;
+        // --- E CORREÇÃO AQUI ---
+    case RepeatMode::One:
+        ui->repeatButton->setIcon(QIcon(":/icons/repeat_one.png")); // Exemplo
+        break;
     }
 }

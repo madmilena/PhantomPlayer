@@ -154,7 +154,11 @@ void MainWindow::onPlaylistsChanged() const {
 
 void MainWindow::onSavePlaylists() {
     if (const QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)"); !filePath.isEmpty()) {
-        m_playlistManager->savePlaylistsToFile(filePath);
+        // --- CORREÇÃO AQUI ---
+        if (!m_playlistManager->savePlaylistsToFile(filePath)) {
+            // Opcional: Mostrar uma mensagem de erro se o salvamento falhar.
+            qDebug() << "Falha ao salvar a playlist no arquivo:" << filePath;
+        }
     }
 }
 
