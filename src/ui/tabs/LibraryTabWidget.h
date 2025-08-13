@@ -3,7 +3,7 @@
 
 #include "BaseTab.h"
 #include <vector>
-#include "core/Track.h" // Incluído
+#include "core/Track.h"
 
 class QListWidgetItem;
 class QMenu;

@@ -1,13 +1,15 @@
 #include "PlaylistTabWidget.h"
-#include "BaseTab.h" // Usa BaseTab internamente
+#include "BaseTab.h"
 #include <QListWidget>
 
 PlaylistTabWidget::PlaylistTabWidget(QWidget *parent) : QTabWidget(parent) {
-    setTabsClosable(true); // Permite fechar abas
+    setTabsClosable(true);
+    connect(this, &QTabWidget::tabCloseRequested, this, &PlaylistTabWidget::playlistClosed);
 }
 
 void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, const std::vector<Track>& allTracks) {
     while (count() > playlists.size()) {
+        delete widget(count() - 1);
         removeTab(count() - 1);
     }
 
@@ -21,7 +23,9 @@ void PlaylistTabWidget::updatePlaylists(const std::vector<Playlist>& playlists, 
             addTab(playlistTab, playlists[i].name);
             connect(playlistTab, &BaseTab::trackDoubleClicked, this, &PlaylistTabWidget::trackDoubleClicked);
         }
-        playlistTab->updateTrackList(playlists[i].trackIndices, allTracks);
+        
+        std::vector<int> trackIndicesInPlaylist = playlists[i].trackIndices;
+        playlistTab->updateTrackList(trackIndicesInPlaylist, allTracks);
     }
 }
 

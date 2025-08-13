@@ -24,6 +24,7 @@ MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playli
     
     m_libraryTab->updateTrackList(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
+    onPlaylistsChanged(); // Carrega as playlists iniciais
 }
 
 MainWindow::~MainWindow() = default;
@@ -34,6 +35,7 @@ void MainWindow::setupUI() {
 }
 
 void MainWindow::createWidgets() {
+    m_mainTabs = new QTabWidget(this);
     m_libraryTab = new LibraryTabWidget(this);
     m_playlistTabs = new PlaylistTabWidget(this);
     m_trackDetails = new TrackDetailsComponent(this);
@@ -47,9 +49,7 @@ void MainWindow::setupLayouts() {
     QAction* loadAction = new QAction("Carregar Playlists...", this);
     fileMenu->addAction(saveAction);
     fileMenu->addAction(loadAction);
-    connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
-    connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
-
+    
     auto* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto* mainLayout = new QHBoxLayout(centralWidget);
@@ -57,13 +57,11 @@ void MainWindow::setupLayouts() {
     auto* leftColumnWidget = new QWidget(this);
     auto* leftColumnLayout = new QVBoxLayout(leftColumnWidget);
     auto* newPlaylistButton = new QPushButton("+ Nova Playlist");
-    connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
     
-    auto* mainTabs = new QTabWidget(this);
-    mainTabs->addTab(m_libraryTab, "Biblioteca");
-    mainTabs->addTab(m_playlistTabs, "Playlists");
+    m_mainTabs->addTab(m_libraryTab, "Biblioteca");
+    m_mainTabs->addTab(m_playlistTabs, "Playlists");
     
-    leftColumnLayout->addWidget(mainTabs);
+    leftColumnLayout->addWidget(m_mainTabs);
     leftColumnLayout->addWidget(newPlaylistButton);
     mainLayout->addWidget(leftColumnWidget, 2);
 
@@ -73,6 +71,10 @@ void MainWindow::setupLayouts() {
     rightColumnLayout->addStretch();
     rightColumnLayout->addWidget(m_playerControls);
     mainLayout->addWidget(rightColumnWidget, 1);
+
+    connect(newPlaylistButton, &QPushButton::clicked, this, &MainWindow::createNewPlaylist);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
+    connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
 }
 
 void MainWindow::setupConnections() {
@@ -94,6 +96,7 @@ void MainWindow::setupConnections() {
     connect(m_libraryTab, &LibraryTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_playlistTabs, &PlaylistTabWidget::trackDoubleClicked, m_playbackService, &PlaybackService::playTrack);
     connect(m_libraryTab, &LibraryTabWidget::addToPlaylistRequested, this, &MainWindow::addTrackToPlaylist);
+    connect(m_playlistTabs, &PlaylistTabWidget::playlistClosed, this, &MainWindow::deletePlaylist);
 }
 
 void MainWindow::onTrackChanged(const Track& track) {
@@ -113,8 +116,12 @@ void MainWindow::addTrackToPlaylist(int trackIndex) {
     if (playlistIndex >= 0) {
         m_playlistManager->addTrackToPlaylist(playlistIndex, trackIndex);
     } else {
-        createNewPlaylist();
+        std::cout << "Nenhuma playlist selecionada para adicionar a musica." << std::endl;
     }
+}
+
+void MainWindow::deletePlaylist(int index) {
+    m_playlistManager->deletePlaylist(index);
 }
 
 void MainWindow::onPlaylistsChanged() {

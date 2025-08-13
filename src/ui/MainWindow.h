@@ -9,6 +9,7 @@ class PlayerControlsWidget;
 class TrackDetailsComponent;
 class LibraryTabWidget;
 class PlaylistTabWidget;
+class QTabWidget;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -22,6 +23,7 @@ private slots:
     void createNewPlaylist();
     void addTrackToPlaylist(int trackIndex);
     void onPlaylistsChanged();
+    void deletePlaylist(int index);
     void onSavePlaylists();
     void onLoadPlaylists();
 
@@ -34,6 +36,7 @@ private:
     PlaybackService* m_playbackService;
     PlaylistManager* m_playlistManager;
 
+    QTabWidget* m_mainTabs;
     LibraryTabWidget* m_libraryTab;
     PlaylistTabWidget* m_playlistTabs;
     TrackDetailsComponent* m_trackDetails;

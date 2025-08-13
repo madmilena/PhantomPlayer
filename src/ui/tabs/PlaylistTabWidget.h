@@ -4,12 +4,11 @@
 #include <QTabWidget>
 #include <vector>
 #include "core/Playlist.h"
-#include "core/Track.h" // <-- ADICIONADO
+#include "core/Track.h"
 
-class QListWidget;
 class QListWidgetItem;
 
-class PlaylistTabWidget : public QTabWidget { // <-- MUDOU DE BaseTab PARA QTabWidget
+class PlaylistTabWidget : public QTabWidget {
     Q_OBJECT
 
 public:
@@ -18,12 +17,10 @@ public:
 
 signals:
     void trackDoubleClicked(int trackIndex);
+    void playlistClosed(int index);
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem* item);
-
-private:
-    QString formatDuration(int totalSeconds);
 };
 
 #endif //PHANTOMPLAYER_PLAYLISTTABWIDGET_H
