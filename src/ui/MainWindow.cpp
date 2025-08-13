@@ -9,6 +9,7 @@
 #include <QInputDialog>
 #include <QPushButton>
 #include <iostream>
+#include <QListWidgetItem>
 
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
     : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager),

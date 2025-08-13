@@ -5,12 +5,13 @@
 #include "../services/PlaybackService.h"
 #include "../services/PlaylistManager.h"
 
-// Forward declarations para evitar inclusões circulares e acelerar a compilação
+// Forward declarations
 class PlayerControlsWidget;
 class TrackDetailsComponent;
 class LibraryTabWidget;
 class PlaylistTabWidget;
 class QTabWidget;
+class QListWidgetItem; // A declaração antecipada pode continuar aqui
 
 class MainWindow final : public QMainWindow {
     Q_OBJECT
@@ -27,10 +28,11 @@ private slots:
     void onSavePlaylists();
     void onLoadPlaylists();
     void onTabChanged(int index);
-
-    // **** CORREÇÃO PRINCIPAL AQUI ****
-    // A assinatura agora corresponde exatamente à implementação no .cpp
     void addTrackToPlaylist(int trackIndex) const;
+
+    // **** DECLARAÇÕES ADICIONADAS DE VOLTA ****
+    void removeTrackFromPlaylist(int playlistId, int trackIndex);
+    void playTrackFromPlaylist(QListWidgetItem *item);
 
 private:
     void setupUI();
