@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <iostream>
+#include <QtCore/qfile.h>
+
 #include "ui/MainWindow.h"
 #include "services/PlaybackService.h"
 #include "services/PlaylistManager.h"
@@ -15,12 +17,10 @@ int main(int argc, char *argv[]) {
         app.setStyleSheet(stream.readAll());
     }
 
-    // --- LÓGICA DE CRIAÇÃO CORRIGIDA ---
+    // Criação e injeção de dependências corrigida
     PlaybackService playbackService;
-    PlaylistManager playlistManager(playbackService.getMediaLibrary()); // 1. Pegamos a MediaLibrary do serviço principal
-                                                                       // 2. Passamos para o PlaylistManager
+    PlaylistManager playlistManager(playbackService.getMediaLibrary());
     MainWindow window(&playbackService, &playlistManager);
-    // ------------------------------------
 
     window.show();
 

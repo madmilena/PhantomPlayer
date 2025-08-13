@@ -21,19 +21,14 @@
 
 namespace fs = std::filesystem;
 
-// Função auxiliar para formatar a duração de segundos para MM:SS
-QString formatDuration(int totalSeconds) {
-    int minutes = totalSeconds / 60;
-    int seconds = totalSeconds % 60;
-    return QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-}
-
 MainWindow::MainWindow(PlaybackService* playbackService, PlaylistManager* playlistManager, QWidget *parent)
     : QMainWindow(parent), m_playbackService(playbackService), m_playlistManager(playlistManager) {
     
     setWindowTitle("Phantom Player");
     resize(1000, 600);
+
     setupUI();
+    
     updateLibraryTab(m_playbackService->getTracks());
     m_playerControls->onVolumeChanged(m_playbackService->getInitialVolume());
 }
@@ -68,7 +63,6 @@ void MainWindow::setupLayouts() {
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSavePlaylists);
     connect(loadAction, &QAction::triggered, this, &MainWindow::onLoadPlaylists);
     
-    // Layout principal
     auto* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     auto* mainLayout = new QHBoxLayout(centralWidget);
@@ -147,6 +141,13 @@ void MainWindow::connectListWidget(QListWidget* listWidget) {
     } else {
         listWidget->setContextMenuPolicy(Qt::NoContextMenu);
     }
+}
+
+// CORREÇÃO: A função agora é um método da classe
+QString MainWindow::formatDuration(int totalSeconds) {
+    int minutes = totalSeconds / 60;
+    int seconds = totalSeconds % 60;
+    return QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 }
 
 void MainWindow::updateLibraryTab(const std::vector<Track>& tracks) {
@@ -307,13 +308,21 @@ void MainWindow::onTabChanged(int index) {
 void MainWindow::onSavePlaylists() {
     QString filePath = QFileDialog::getSaveFileName(this, "Salvar Playlists", QDir::homePath(), "JSON Files (*.json)");
     if (!filePath.isEmpty()) {
-        m_playlistManager->savePlaylistsToFile(filePath);
+        if (m_playlistManager->savePlaylistsToFile(filePath)) {
+            std::cout << "Playlists salvas com sucesso em: " << filePath.toStdString() << std::endl;
+        } else {
+            std::cerr << "Erro ao salvar playlists." << std::endl;
+        }
     }
 }
 
 void MainWindow::onLoadPlaylists() {
     QString filePath = QFileDialog::getOpenFileName(this, "Carregar Playlists", QDir::homePath(), "JSON Files (*.json)");
     if (!filePath.isEmpty()) {
-        m_playlistManager->loadPlaylistsFromFile(filePath);
+        if (m_playlistManager->loadPlaylistsFromFile(filePath)) {
+            std::cout << "Playlists carregadas com sucesso de: " << filePath.toStdString() << std::endl;
+        } else {
+            std::cerr << "Erro ao carregar playlists." << std::endl;
+        }
     }
 }

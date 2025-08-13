@@ -20,7 +20,7 @@ public:
 
     const std::vector<Track>& getTracks() const;
     float getInitialVolume() const;
-    MediaLibrary* getMediaLibrary(); // <-- NOVA FUNÇÃO
+    MediaLibrary* getMediaLibrary(); // <-- Método para acessar a MediaLibrary
 
 public slots:
     void playTrack(int index);

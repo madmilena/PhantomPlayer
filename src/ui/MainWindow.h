@@ -6,6 +6,7 @@
 #include "../services/PlaylistManager.h"
 #include "../core/Track.h"
 
+// Forward declarations
 class QListWidget;
 class QListWidgetItem;
 class QLabel;
@@ -32,8 +33,6 @@ private slots:
     void addTrackToSelectedPlaylist(QAction* action);
     void onPlaylistsChanged();
     void onTabChanged(int index);
-    
-    // SLOTS QUE FALTAVAM
     void onSavePlaylists();
     void onLoadPlaylists();
 
@@ -44,7 +43,7 @@ private:
     void setupConnections();
     void connectListWidget(QListWidget* listWidget);
     void updateLibraryTab(const std::vector<Track>& tracks);
-    QString formatDuration(int totalSeconds);
+    QString formatDuration(int totalSeconds); // A função pertence à classe
 
     PlaybackService* m_playbackService;
     PlaylistManager* m_playlistManager;

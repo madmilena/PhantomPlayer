@@ -19,8 +19,8 @@ public:
     bool savePlaylistsToFile(const QString& filePath);
     bool loadPlaylistsFromFile(const QString& filePath);
 
-signals:
-    void playlistsChanged();
+    signals:
+        void playlistsChanged();
 
 private:
     std::vector<Playlist> m_playlists;

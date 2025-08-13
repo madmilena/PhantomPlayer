@@ -27,18 +27,15 @@ const std::vector<Playlist>& PlaylistManager::getPlaylists() const {
     return m_playlists;
 }
 
-// --- ESQUELETO DAS FUNÇÕES PARA O LINKER FUNCIONAR ---
-// (Sua lógica do desafio virá aqui depois)
-
 bool PlaylistManager::savePlaylistsToFile(const QString& filePath) {
     std::cout << "Lógica de salvar em: " << filePath.toStdString() << " ainda nao implementada." << std::endl;
-    // SUA LÓGICA DE SALVAR O JSON VAI AQUI
+    // Sua lógica de salvar o JSON virá aqui.
     return true;
 }
 
 bool PlaylistManager::loadPlaylistsFromFile(const QString& filePath) {
     std::cout << "Lógica de carregar de: " << filePath.toStdString() << " ainda nao implementada." << std::endl;
-    // SUA LÓGICA DE CARREGAR O JSON VAI AQUI
-    emit playlistsChanged(); // Lembrar de emitir o sinal no final
+    // Sua lógica de carregar o JSON virá aqui.
+    emit playlistsChanged();
     return true;
 }

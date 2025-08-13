@@ -6,7 +6,7 @@
 #include <iostream>
 
 PlaybackService::PlaybackService(QObject *parent) : QObject(parent) {
-    m_mediaLibrary.scanDirectory("/Users/milenamadsen/Music");
+    m_mediaLibrary.scanDirectory("/Users/milenamadsen/Music"); // Ajuste este caminho se necessário
     generateShuffleList();
 
     m_progressTimer = new QTimer(this);
@@ -20,6 +20,11 @@ const std::vector<Track>& PlaybackService::getTracks() const {
 
 float PlaybackService::getInitialVolume() const {
     return m_audioEngine.getVolume();
+}
+
+// Esta é a única versão da função que deve existir no arquivo
+MediaLibrary* PlaybackService::getMediaLibrary() {
+    return &m_mediaLibrary;
 }
 
 void PlaybackService::generateShuffleList() {
@@ -53,7 +58,7 @@ void PlaybackService::togglePlayPause() {
     }
 
     auto status = m_audioEngine.getStatus();
-    if (status == sf::Music::Status::Playing) { // CORRIGIDO
+    if (status == sf::Music::Status::Playing) {
         m_audioEngine.pause();
     } else {
         m_audioEngine.resume();
@@ -65,7 +70,7 @@ void PlaybackService::stop() {
     m_audioEngine.stop();
     m_currentTrackIndex = -1;
     m_progressTimer->stop();
-    emit playbackStateChanged(sf::Music::Status::Stopped); // CORRIGIDO
+    emit playbackStateChanged(sf::Music::Status::Stopped);
     emit progressUpdated(0, 0);
 }
 
@@ -162,17 +167,13 @@ void PlaybackService::setVolume(float volume) {
 
 void PlaybackService::onEngineStatusChange() {
     auto status = m_audioEngine.getStatus();
-    if (status == sf::Music::Status::Playing) { // CORRIGIDO
+    if (status == sf::Music::Status::Playing) {
         if (m_currentTrackIndex != -1) {
             int current = m_audioEngine.getPlayingOffset().asSeconds();
             int total = getTracks()[m_currentTrackIndex].durationInSeconds;
             emit progressUpdated(current, total);
         }
-    } else if (status == sf::Music::Status::Stopped && m_currentTrackIndex != -1) { // CORRIGIDO
+    } else if (status == sf::Music::Status::Stopped && m_currentTrackIndex != -1) {
         next();
     }
 }
-
-MediaLibrary* PlaybackService::getMediaLibrary() {
-    return &m_mediaLibrary;
-} // <-- NOVA IMPLEMENTAÇÃO
